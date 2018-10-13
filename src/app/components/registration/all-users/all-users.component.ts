@@ -21,6 +21,7 @@ export class AllUsersComponent implements OnInit {
 
   knownLanguages: any = [];
   requiresTranslationOrCulturalAid: boolean;
+  interestedInTranslationOrCulturalAidForOthers: boolean;
 
   languageList: any = [];
 
@@ -36,7 +37,8 @@ export class AllUsersComponent implements OnInit {
       phoneNumberControl: [this.phoneNumber, Validators.required],
       knownLanguageControl: [this.knownLanguages],
       preferredLanguageControl: [this.preferredLanguage],
-      requiresTranslationOrCulturalAidControl: [this.requiresTranslationOrCulturalAid]
+      requiresTranslationOrCulturalAidControl: [this.requiresTranslationOrCulturalAid],
+      interestedInTranslationOrCulturalAidForOthersControl: [this.interestedInTranslationOrCulturalAidForOthers]
     });
   }
 
