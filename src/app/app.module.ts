@@ -12,7 +12,10 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {FormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
 import {PostDialogComponent} from './components/post-dialog/post-dialog.component';
+import {RegistrationModule} from './components/registration/registration.module';
 import {WelcomeComponent} from './components/welcome/welcome.component';
+import { HttpClientModule } from '@angular/common/http';
+import {UserService} from './services/user.service';
 
 import {AllUsersComponent} from './components/registration/all-users/all-users.component';
 import {RegistrationComponent} from './components/registration/registration/registration.component';
@@ -32,11 +35,14 @@ import {RegistrationComponent} from './components/registration/registration/regi
     BrowserAnimationsModule,
     FormsModule,
     FlexLayoutModule,
-    MaterialModule
+    HttpClientModule,
+    MaterialModule,
+    RegistrationModule
   ],
   providers: [
     AuthService,
-    DataService
+    DataService,
+    UserService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
