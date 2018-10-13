@@ -25,7 +25,7 @@ export const routerTransition = trigger('routerTransition', [
       query(':leave .form-field', [
         stagger(100, [
           style({ transform: 'translateX(0%)', opacity: 1, height: '!' }),
-          animate('0s 1s cubic-bezier(.75,-0.50,.20,1.50)',
+          animate('400ms .25s cubic-bezier(.75,-0.50,.20,1.50)',
             style({ transform: 'translateX(100%)', opacity: 0, height: 0 }))]),
       ], { optional: true }),
     ]),
@@ -33,7 +33,7 @@ export const routerTransition = trigger('routerTransition', [
       // style({ opacity: 0, height: 0 }),
       stagger(100, [
         style({ transform: 'translateX(100%)', opacity: 0, height: 0 }),
-        animate('0s 1s cubic-bezier(.75,-0.50,.20,1.50)',
+        animate('400ms .25s cubic-bezier(.75,-0.50,.20,1.50)',
           style({ transform: 'translateX(0%)', opacity: 1, height: '*' })),
       ])], { optional: true }),
   ])

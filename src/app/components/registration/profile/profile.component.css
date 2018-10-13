@@ -1,11 +1,13 @@
 
 .container {
+  min-height: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .card-container {
+  min-height: 1px;
   text-align: center;
   width: 50%;
 }
