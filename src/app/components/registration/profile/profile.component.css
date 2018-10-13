@@ -17,3 +17,7 @@
 .mat-form-field {
   width: 50%;
 }
+
+.checkbox-text {
+  white-space: normal;
+}

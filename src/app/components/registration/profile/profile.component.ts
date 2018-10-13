@@ -45,6 +45,7 @@ export class ProfileComponent implements OnInit {
   }
 
   register() {
+    this.populateUser();
 
   }
 
@@ -60,7 +61,7 @@ export class ProfileComponent implements OnInit {
     this.allUsersFormGroup = this.formBuilder.group({
       givenNameControl: [this.auth0User.givenName, Validators.required, this.givenName],
       familyNameControl: [this.auth0User.familyName, Validators.required, this.familyName],
-      emailControl: [this.auth0User.email, Validators.required, this.email],
+      emailControl: [{value: this.auth0User.email, disabled: true}, Validators.required, this.email],
       phoneNumberControl: [this.phoneNumber, Validators.required],
       knownLanguageControl: [this.knownLanguages],
       preferredLanguageControl: [this.preferredLanguage],
@@ -71,5 +72,11 @@ export class ProfileComponent implements OnInit {
 
   changeKnownLanguage(event) {
     this.knownLanguages = event.value;
+  }
+
+  populateUser() {
+    this.auth0User.givenName = this.allUsersFormGroup.get('givenNameControl').value;
+    this.auth0User.familyName = this.allUsersFormGroup.get('familyNameControl').value;
+    this.auth0User.email = this.allUsersFormGroup.get('emailControl').value;
   }
 }
