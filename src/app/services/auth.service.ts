@@ -92,7 +92,7 @@ export class AuthService {
   }
 
   private loadAuthenticatedUser(): void {
-    this.userService.getUserByUsername(this.auth0User.email)
+    this.userService.getUserById(this.auth0User.sub)
       .subscribe(
         (user: User) => {
           this.authenticatedUser = user;
