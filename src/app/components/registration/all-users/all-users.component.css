@@ -1,0 +1,19 @@
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-container {
+  text-align: center;
+  width: 50%;
+}
+
+.mat-card {
+  margin: 10px;
+}
+
+.mat-form-field {
+  width: 50%;
+}

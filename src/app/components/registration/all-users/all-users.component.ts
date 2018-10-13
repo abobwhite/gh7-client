@@ -17,23 +17,43 @@ export class AllUsersComponent implements OnInit {
   givenName: string;
   familyName: string;
   phoneNumber: number;
+  preferredLanguage: string;
 
   knownLanguages: any = [];
   requiresTranslationOrCulturalAid: boolean;
+
+  languageList: any = [];
 
   constructor(private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
+    this.setupLanguageList();
+
     this.allUsersFormGroup = this.formBuilder.group({
       givenNameControl: [this.givenName, Validators.required],
       familyNameControl: [this.familyName, Validators.required],
-      phoneNumberControl: [this.phoneNumber, Validators.required]
+      phoneNumberControl: [this.phoneNumber, Validators.required],
+      knownLanguageControl: [this.knownLanguages],
+      preferredLanguageControl: [this.preferredLanguage],
+      requiresTranslationOrCulturalAidControl: [this.requiresTranslationOrCulturalAid]
     });
   }
 
   register() {
 
+  }
+
+  setupLanguageList() {
+    this.languageList = [
+      'English',
+      'Spanish',
+      'French'
+    ];
+  }
+
+  changeKnownLanguage(event) {
+    this.knownLanguages = event.value;
   }
 
 }

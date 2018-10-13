@@ -1,39 +1,74 @@
 <div class="container">
-  <mat-card>
-  <form
-    [formGroup]="allUsersFormGroup"
-    (ngSubmit)="register()"
-    novalidate>
-    <div class="form-field">
-      <mat-form-field>
-        <input matInput
-               placeholder="Given Name"
-               formControlName="givenNameControl"
-               type="text"
-               required
-        >
-      </mat-form-field>
-    </div>
-    <div class="form-field">
-      <mat-form-field>
-        <input matInput
-               placeholder="Family Name"
-               formControlName="familyNameControl"
-               type="text"
-               required
-        >
-      </mat-form-field>
-    </div>
-    <div class="form-field">
-      <mat-form-field>
-        <input matInput
-               placeholder="Phone Number"
-               formControlName="phoneNumberControl"
-               type="number"
-               required
-        >
-      </mat-form-field>
-    </div>
-  </form>
-  </mat-card>
+  <div class="card-container">
+    <mat-card>
+      <form
+        [formGroup]="allUsersFormGroup"
+        (ngSubmit)="register()"
+        novalidate>
+        <div class="form-field">
+          <mat-form-field>
+            <input matInput
+                   placeholder="Given Name"
+                   formControlName="givenNameControl"
+                   type="text"
+                   required
+            >
+          </mat-form-field>
+        </div>
+        <div class="form-field">
+          <mat-form-field>
+            <input matInput
+                   placeholder="Family Name"
+                   formControlName="familyNameControl"
+                   type="text"
+                   required
+            >
+          </mat-form-field>
+        </div>
+        <div class="form-field">
+          <mat-form-field>
+            <input matInput
+                   placeholder="Phone Number"
+                   formControlName="phoneNumberControl"
+                   type="number"
+                   required
+            >
+          </mat-form-field>
+        </div>
+        <div class="form-field">
+          <mat-form-field>
+            <mat-select
+              placeholder="Known Languages"
+              multiple
+              formControlName="knownLanguageControl"
+              (selectionChange)="changeKnownLanguage($event)">
+              <mat-option *ngFor="let language of languageList" [value]="language">{{language}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-field">
+          <mat-form-field>
+            <mat-select
+              placeholder="Preferred Language"
+              formControlName="preferredLanguageControl">
+              <mat-option *ngFor="let language of knownLanguages" [value]="language">{{language}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--<div class="form-field">-->
+          <!--<mat-form-field>-->
+            <!--<mat-checkbox-->
+              <!--matInput-->
+              <!--placeholder="Requires Translation or Cultural Aid"-->
+              <!--formControlName="requiresTranslationOrCulturalAidControl"-->
+            <!--&gt;-->
+              <!--<label>-->
+                <!--Do you need assistance in translation or cultural aid?-->
+              <!--</label>-->
+            <!--</mat-checkbox>-->
+          <!--</mat-form-field>-->
+        <!--</div>-->
+      </form>
+    </mat-card>
+  </div>
 </div>
