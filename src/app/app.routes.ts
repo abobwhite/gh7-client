@@ -3,20 +3,12 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {ProfileComponent} from './components/registration/profile/profile.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
-import {RegistrationComponent} from './components/registration/registration/registration.component';
-import {WelcomeComponent} from './components/welcome/welcome.component';
+import {HomeComponent} from './components/home/home.component';
 
 const routes: Routes = [
-  {path: '', component: WelcomeComponent},
+  {path: '', component: HomeComponent},
   {path: 'dashboard', component: DashboardComponent},
-  {
-    path: 'register',
-    component: RegistrationComponent
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent
-  }
+  {path: 'profile', component: ProfileComponent}
 ];
 
 @NgModule({

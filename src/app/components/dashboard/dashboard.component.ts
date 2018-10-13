@@ -4,7 +4,6 @@ import {Post} from '../../models/Post';
 import {DataSource} from '@angular/cdk/table';
 import {Observable} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
-import {PostDialogComponent} from '../post-dialog/post-dialog.component';
 import {MatDialog} from '@angular/material';
 
 @Component({

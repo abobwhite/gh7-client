@@ -12,12 +12,10 @@ import {AppComponent} from './components/app/app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
-import {PostDialogComponent} from './components/post-dialog/post-dialog.component';
-import {WelcomeComponent} from './components/welcome/welcome.component';
+import {HomeComponent} from './components/home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {ProfileComponent} from './components/registration/profile/profile.component';
-import {RegistrationComponent} from './components/registration/registration/registration.component';
 import {AuthInterceptor} from './services/auth.interceptor';
 
 
@@ -26,9 +24,7 @@ import {AuthInterceptor} from './services/auth.interceptor';
     AppComponent,
     ProfileComponent,
     DashboardComponent,
-    PostDialogComponent,
-    RegistrationComponent,
-    WelcomeComponent
+    HomeComponent
   ],
   imports: [
     AppRouters,
@@ -49,7 +45,6 @@ import {AuthInterceptor} from './services/auth.interceptor';
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    PostDialogComponent,
     ProfileComponent
   ],
 })
