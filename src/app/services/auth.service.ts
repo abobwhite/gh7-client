@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import * as auth0 from 'auth0-js';
+import {WebAuth} from 'auth0-js';
 import {environment} from '../../environments/environment';
 import {Auth0User} from '../models/Auth0User';
 import {plainToClass} from 'class-transformer';
 import {UserService} from './user.service';
 import {User} from '../models/User';
-import {HttpErrorResponse} from '@angular/common/http';
-import {WebAuth} from 'auth0-js';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
 // why do you need defining window as any?
 // check this: https://github.com/aws/aws-amplify/issues/678#issuecomment-389106098
@@ -21,7 +21,7 @@ export class AuthService {
   private auth0Options: any;
   private auth0: WebAuth;
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, private userService: UserService, private http: HttpClient) {
     this.auth0Options = {
       audience: environment.AUTH0_AUDIENCE,
       clientID: environment.AUTHO_CLIENT_ID,
@@ -64,8 +64,9 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
-    // Go back to the home route
-    this.router.navigate(['/']);
+    const host = environment.AUTH0_REDIRECT_URL;
+    const logoutUrl = `https://${environment.AUTH0_DOMAIN}/v2/logout?client_id=${environment.AUTHO_CLIENT_ID}&returnTo=${host}`;
+    window.location.href = logoutUrl;
   }
 
   public get accessToken(): string {
