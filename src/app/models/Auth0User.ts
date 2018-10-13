@@ -1,9 +1,17 @@
 import {Expose, Type} from 'class-transformer';
 
 export class Auth0User {
-  sub: string;
+  sub: string; // openid
   nickname: string;
-  name: string;
+
+  @Expose({name: 'given_name'})
+  givenName: string;
+
+  @Expose({name: 'family_name'})
+  familyName: string;
+
+  gender: string;
+  locale: string;
   picture: string; // url
 
   @Expose({name: 'updated_at'})
