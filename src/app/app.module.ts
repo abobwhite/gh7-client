@@ -16,7 +16,7 @@ import {PostDialogComponent} from './components/post-dialog/post-dialog.componen
 import {WelcomeComponent} from './components/welcome/welcome.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
-import {AllUsersComponent} from './components/registration/all-users/all-users.component';
+import {ProfileComponent} from './components/registration/profile/profile.component';
 import {RegistrationComponent} from './components/registration/registration/registration.component';
 import {AuthInterceptor} from './services/auth.interceptor';
 
@@ -24,7 +24,7 @@ import {AuthInterceptor} from './services/auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
-    AllUsersComponent,
+    ProfileComponent,
     DashboardComponent,
     PostDialogComponent,
     RegistrationComponent,

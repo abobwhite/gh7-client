@@ -98,7 +98,9 @@ export class AuthService {
           this.authenticatedUser = user;
           this.router.navigate(['dashboard']);
         },
-        (error: HttpErrorResponse) => this.router.navigate(['register'])
+        (error: HttpErrorResponse) => {
+          this.router.navigate(['profile']);
+        }
       );
   }
 
