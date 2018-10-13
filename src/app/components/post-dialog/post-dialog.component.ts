@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {DataService} from '../data/data.service';
+import {DataService} from '../../services/data.service';
 
 @Component({
   selector: 'app-post-dialog',

@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {DataService} from '../data/data.service';
-import {Post} from '../Post';
+import {DataService} from '../../services/data.service';
+import {Post} from '../../models/Post';
 import {DataSource} from '@angular/cdk/table';
 import {Observable} from 'rxjs';
-import {AuthService} from '../auth.service';
+import {AuthService} from '../../services/auth.service';
 import {PostDialogComponent} from '../post-dialog/post-dialog.component';
 import {MatDialog} from '@angular/material';
 
@@ -29,7 +29,7 @@ export class DashboardComponent {
   }
 
   openDialog(): void {
-    let dialogRef = this.dialog.open(PostDialogComponent, {
+    const dialogRef = this.dialog.open(PostDialogComponent, {
       width: '600px',
       data: 'Add Post'
     });
