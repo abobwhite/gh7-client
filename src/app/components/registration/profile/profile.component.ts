@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {routerTransition} from '../animations/router.transition';
 import {AuthService} from '../../../services/auth.service';
 import {Auth0User} from '../../../models/Auth0User';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   animations: [routerTransition],
@@ -12,7 +14,7 @@ import {Auth0User} from '../../../models/Auth0User';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   allUsersFormGroup: FormGroup;
 
@@ -29,19 +31,28 @@ export class ProfileComponent implements OnInit {
   languageList: any = [];
 
   auth0User: Auth0User;
+  private unsubscriber: Subject<any> = new Subject();
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService) {
   }
 
   ngOnInit() {
-
-    this.auth0User = this.authService.auth0User;
+    this.authService.getAuth0User()
+      .pipe(
+        takeUntil(this.unsubscriber)
+      )
+      .subscribe((auth0User) => {
+        this.auth0User = auth0User;
+        this.setupFormGroup();
+      });
 
     this.setupLanguageList();
-    this.setupFormGroup();
+  }
 
-
+  ngOnDestroy() {
+    this.unsubscriber.next();
+    this.unsubscriber.complete();
   }
 
   register() {

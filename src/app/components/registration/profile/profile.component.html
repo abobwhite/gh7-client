@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="card-container">
+  <div class="card-container" *ngIf="auth0User">
     <mat-card>
       <form
         [formGroup]="allUsersFormGroup"

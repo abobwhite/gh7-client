@@ -8,6 +8,8 @@ import {plainToClass} from 'class-transformer';
 import {UserService} from './user.service';
 import {User} from '../models/User';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Observable, ReplaySubject} from 'rxjs';
+import {flatMap} from 'rxjs/operators';
 
 // why do you need defining window as any?
 // check this: https://github.com/aws/aws-amplify/issues/678#issuecomment-389106098
@@ -15,9 +17,8 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
 export class AuthService {
-  authenticatedUser: User;
-  auth0User: Auth0User;
-
+  private auth0User: Auth0User;
+  private authenticatedUser: User;
   private auth0Options: any;
   private auth0: WebAuth;
 
@@ -80,29 +81,60 @@ export class AuthService {
     return new Date().getTime() < expiresAt;
   }
 
-  private loadUser(): void {
-    this.auth0.client.userInfo(this.accessToken, (err, authResult): void => {
-      if (!err) {
-        this.auth0User = plainToClass(Auth0User, authResult);
-        this.loadAuthenticatedUser();
-      } else {
-        // TODO: Handle error
-        console.error(`Could not get user info for token ${this.accessToken}`);
-      }
-    });
+  public getAuth0User(): Observable<Auth0User> {
+    const subject: ReplaySubject<Auth0User> = new ReplaySubject<Auth0User>();
+    if (this.auth0User) {
+      subject.next(this.auth0User);
+      subject.complete();
+    } else {
+      this.auth0.client.userInfo(this.accessToken, (err, authResult): void => {
+        if (!err) {
+          this.auth0User = plainToClass(Auth0User, authResult);
+          subject.next(this.auth0User);
+        } else {
+          subject.error(`Could not get user info for token ${this.accessToken}`);
+        }
+
+        subject.complete();
+      });
+    }
+
+    return subject.asObservable();
   }
 
-  private loadAuthenticatedUser(): void {
-    this.userService.getUserById(this.auth0User.sub)
-      .subscribe(
-        (user: User) => {
+  public getAuthenticatedUser(): Observable<User> {
+    const subject: ReplaySubject<User> = new ReplaySubject<User>();
+
+    if (this.authenticatedUser) {
+      subject.next(this.authenticatedUser);
+      subject.complete();
+    } else {
+      this.userService.getUserById(this.auth0User.sub)
+        .subscribe((user: User) => {
           this.authenticatedUser = user;
-          this.router.navigate(['dashboard']);
-        },
-        (error: HttpErrorResponse) => {
-          this.router.navigate(['profile']);
-        }
-      );
+          subject.next(this.authenticatedUser);
+          subject.complete();
+        }, (err) => {
+          subject.error(err);
+          subject.complete();
+        });
+    }
+
+    return subject.asObservable();
+  }
+
+  private loadUser(): void {
+    this.getAuth0User()
+      .pipe(
+        flatMap(this.getAuthenticatedUser.bind(this)),
+      ).subscribe(
+      (user: User) => {
+        this.authenticatedUser = user;
+        this.router.navigate(['dashboard']);
+      },
+      (error: HttpErrorResponse) => {
+        this.router.navigate(['profile']);
+      });
   }
 
   private setSession(authResult): void {

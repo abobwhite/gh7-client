@@ -49,7 +49,8 @@ import {AuthInterceptor} from './services/auth.interceptor';
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    PostDialogComponent
+    PostDialogComponent,
+    ProfileComponent
   ],
 })
 export class AppModule {
