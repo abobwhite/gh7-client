@@ -6,19 +6,19 @@ import {NgModule} from '@angular/core';
 
 import {AuthService} from './services/auth.service';
 import {DataService} from './services/data.service';
+import {UserService} from './services/user.service';
 
 import {AppComponent} from './components/app/app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
 import {PostDialogComponent} from './components/post-dialog/post-dialog.component';
-import {RegistrationModule} from './components/registration/registration.module';
 import {WelcomeComponent} from './components/welcome/welcome.component';
-import { HttpClientModule } from '@angular/common/http';
-import {UserService} from './services/user.service';
-
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
 import {AllUsersComponent} from './components/registration/all-users/all-users.component';
 import {RegistrationComponent} from './components/registration/registration/registration.component';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import {RegistrationComponent} from './components/registration/registration/regi
     FlexLayoutModule,
     HttpClientModule,
     MaterialModule,
-    RegistrationModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   providers: [
     AuthService,
