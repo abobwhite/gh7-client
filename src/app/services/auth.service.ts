@@ -6,9 +6,7 @@ import {Auth0User} from '../models/Auth0User';
 import {plainToClass} from 'class-transformer';
 import {UserService} from './user.service';
 import {User} from '../models/User';
-import {catchError} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Observable} from 'rxjs';
 
 // why do you need defining window as any?
 // check this: https://github.com/aws/aws-amplify/issues/678#issuecomment-389106098
@@ -43,7 +41,9 @@ export class AuthService {
         this.loadUser();
         route = '/dashboard';
       } else if (!err) {
-        this.loadUser();
+        if (this.accessToken) {
+          this.loadUser();
+        }
       } else {
         this.router.navigate(['/']);
         console.log(err);
