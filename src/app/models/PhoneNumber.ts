@@ -1,6 +1,6 @@
 export class PhoneNumber {
-  countryCode: number;
-  areaCode: number;
-  exchange: number;
-  lineNumber: number;
+  countryCode: string;
+  areaCode: string;
+  exchange: string;
+  lineNumber: string;
 }
