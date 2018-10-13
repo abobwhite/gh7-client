@@ -7,6 +7,7 @@ import {plainToClass} from 'class-transformer';
 import {UserService} from './user.service';
 import {User} from '../models/User';
 import {HttpErrorResponse} from '@angular/common/http';
+import {WebAuth} from 'auth0-js';
 
 // why do you need defining window as any?
 // check this: https://github.com/aws/aws-amplify/issues/678#issuecomment-389106098
@@ -17,38 +18,45 @@ export class AuthService {
   authenticatedUser: User;
   auth0User: Auth0User;
 
-  auth0 = new auth0.WebAuth({
-    clientID: environment.AUTHO_CLIENT_ID,
-    domain: environment.AUTH0_DOMAIN,
-    responseType: 'token id_token',
-    redirectUri: environment.AUTH0_REDIRECT_URL,
-    scope: 'openid profile email'
-  });
+  private auth0Options: any;
+  private auth0: WebAuth;
 
   constructor(private router: Router, private userService: UserService) {
+    this.auth0Options = {
+      audience: environment.AUTH0_AUDIENCE,
+      clientID: environment.AUTHO_CLIENT_ID,
+      domain: environment.AUTH0_DOMAIN,
+      responseType: 'token id_token',
+      redirectUri: environment.AUTH0_REDIRECT_URL,
+      scope: 'openid profile email'
+    };
+
+    this.auth0 = new auth0.WebAuth(this.auth0Options);
   }
 
   public login(): void {
-    this.auth0.authorize();
+    this.auth0.authorize(this.auth0Options);
   }
 
   public handleAuthentication(): void {
-    this.auth0.parseHash((err, authResult) => {
-      let route = '/dashboard';
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        window.location.hash = '';
-        this.setSession(authResult);
+    this.auth0.parseHash(this.processAuthResult.bind(this));
+  }
+
+  private processAuthResult(err, authResult) {
+    let route = '/dashboard';
+    if (authResult && authResult.accessToken && authResult.idToken) {
+      window.location.hash = '';
+      this.setSession(authResult);
+      this.loadUser();
+      route = '/dashboard';
+    } else if (!err) {
+      if (this.accessToken) {
         this.loadUser();
-        route = '/dashboard';
-      } else if (!err) {
-        if (this.accessToken) {
-          this.loadUser();
-        }
-      } else {
-        this.router.navigate(['/']);
-        console.log(err);
       }
-    });
+    } else {
+      this.router.navigate(['/']);
+      console.log(err);
+    }
   }
 
   public logout(): void {
@@ -58,6 +66,10 @@ export class AuthService {
     localStorage.removeItem('expires_at');
     // Go back to the home route
     this.router.navigate(['/']);
+  }
+
+  public get accessToken(): string {
+    return localStorage.getItem('access_token');
   }
 
   public isAuthenticated(): boolean {
@@ -88,10 +100,6 @@ export class AuthService {
         },
         (error: HttpErrorResponse) => this.router.navigate(['register'])
       );
-  }
-
-  private get accessToken(): string {
-    return localStorage.getItem('access_token');
   }
 
   private setSession(authResult): void {

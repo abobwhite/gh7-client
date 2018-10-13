@@ -14,10 +14,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
 import {PostDialogComponent} from './components/post-dialog/post-dialog.component';
 import {WelcomeComponent} from './components/welcome/welcome.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {AllUsersComponent} from './components/registration/all-users/all-users.component';
 import {RegistrationComponent} from './components/registration/registration/registration.component';
+import {AuthInterceptor} from './services/auth.interceptor';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {RegistrationComponent} from './components/registration/registration/regi
   providers: [
     AuthService,
     DataService,
-    UserService
+    UserService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
   entryComponents: [
