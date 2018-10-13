@@ -5,7 +5,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {NgModule} from '@angular/core';
 
 import {AuthService} from './services/auth.service';
-import {DataService} from './services/data.service';
 import {UserService} from './services/user.service';
 
 import {AppComponent} from './components/app/app.component';
@@ -39,7 +38,6 @@ import {AuthInterceptor} from './services/auth.interceptor';
   ],
   providers: [
     AuthService,
-    DataService,
     UserService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
