@@ -3,7 +3,7 @@ import {User} from '../models/User';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {map, shareReplay} from 'rxjs/operators';
-import {plainToClass} from 'class-transformer';
+import {classToPlain, plainToClass} from 'class-transformer';
 import {ResponseEntity} from '../models/ResponseEntity';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class UserService {
   }
 
   createUser(user: User): Observable<User> {
-    return this.httpClient.post<ResponseEntity<User>>('/api/users', user)
+    return this.httpClient.post<ResponseEntity<User>>('/api/users', classToPlain(user))
       .pipe(
         map((res) => plainToClass(User, res.body))
       );
