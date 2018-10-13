@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   givenName: string;
   familyName: string;
   email: string;
-  phoneNumber: number;
+  phoneNumber: string;
   preferredLanguage: string;
 
   knownLanguages: any = [];

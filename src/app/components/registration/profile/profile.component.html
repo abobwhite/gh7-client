@@ -6,6 +6,10 @@
         (ngSubmit)="register()"
         novalidate>
         <div class="form-field">
+          <h1>Thank you for signing up!</h1>
+          <h3>Please complete your profile below</h3>
+        </div>
+        <div class="form-field">
           <mat-form-field>
             <input matInput
                    placeholder="Given Name"
@@ -40,7 +44,7 @@
             <input matInput
                    placeholder="Phone Number"
                    formControlName="phoneNumberControl"
-                   type="number"
+                   type="string"
                    required
             >
           </mat-form-field>
