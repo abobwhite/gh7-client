@@ -5,6 +5,10 @@ import {environment} from '../../environments/environment';
 import {Auth0User} from '../models/Auth0User';
 import {plainToClass} from 'class-transformer';
 import {UserService} from './user.service';
+import {User} from '../models/User';
+import {catchError} from 'rxjs/operators';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 // why do you need defining window as any?
 // check this: https://github.com/aws/aws-amplify/issues/678#issuecomment-389106098
@@ -12,6 +16,7 @@ import {UserService} from './user.service';
 
 @Injectable()
 export class AuthService {
+  authenticatedUser: User;
   auth0User: Auth0User;
 
   auth0 = new auth0.WebAuth({
@@ -19,7 +24,7 @@ export class AuthService {
     domain: environment.AUTH0_DOMAIN,
     responseType: 'token id_token',
     redirectUri: environment.AUTH0_REDIRECT_URL,
-    scope: 'openid'
+    scope: 'openid profile email'
   });
 
   constructor(private router: Router, private userService: UserService) {
@@ -31,11 +36,15 @@ export class AuthService {
 
   public handleAuthentication(): void {
     this.auth0.parseHash((err, authResult) => {
+      let route = '/dashboard';
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        this.router.navigate(['/dashboard']);
-      } else if (err) {
+        this.loadUser();
+        route = '/dashboard';
+      } else if (!err) {
+        this.loadUser();
+      } else {
         this.router.navigate(['/']);
         console.log(err);
       }
@@ -62,11 +71,23 @@ export class AuthService {
     this.auth0.client.userInfo(this.accessToken, (err, authResult): void => {
       if (!err) {
         this.auth0User = plainToClass(Auth0User, authResult);
+        this.loadAuthenticatedUser();
       } else {
         // TODO: Handle error
         console.error(`Could not get user info for token ${this.accessToken}`);
       }
     });
+  }
+
+  private loadAuthenticatedUser(): void {
+    this.userService.getUserByUsername(this.auth0User.email)
+      .subscribe(
+        (user: User) => {
+          this.authenticatedUser = user;
+          this.router.navigate(['dashboard']);
+        },
+        (error: HttpErrorResponse) => this.router.navigate(['register'])
+      );
   }
 
   private get accessToken(): string {
@@ -79,6 +100,5 @@ export class AuthService {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
-    this.loadUser();
   }
 }
