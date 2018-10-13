@@ -14,6 +14,8 @@ import {MaterialModule} from './material.module';
 import {PostDialogComponent} from './components/post-dialog/post-dialog.component';
 import {RegistrationModule} from './components/registration/registration.module';
 import {WelcomeComponent} from './components/welcome/welcome.component';
+import { HttpClientModule } from '@angular/common/http';
+import {UserService} from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -29,11 +31,13 @@ import {WelcomeComponent} from './components/welcome/welcome.component';
     FormsModule,
     FlexLayoutModule,
     MaterialModule,
+    HttpClientModule,
     RegistrationModule
   ],
   providers: [
     AuthService,
-    DataService
+    DataService,
+    UserService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

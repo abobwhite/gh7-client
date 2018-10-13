@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  AUTHO_CLIENT_ID: 'r2xf6jVZqYIDMnzn2zFoyKz8aw61yp8K',
+  AUTH0_DOMAIN: 'gh7-beacon.auth0.com',
+  AUTH0_REDIRECT_URL: 'http://localhost:4200/'
 };
 
 /*

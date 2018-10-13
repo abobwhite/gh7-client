@@ -1,6 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import * as auth0 from 'auth0-js';
+import {environment} from '../../environments/environment';
+import {Auth0User} from '../models/Auth0User';
+import {plainToClass} from 'class-transformer';
+import {UserService} from './user.service';
 
 // why do you need defining window as any?
 // check this: https://github.com/aws/aws-amplify/issues/678#issuecomment-389106098
@@ -8,16 +12,17 @@ import * as auth0 from 'auth0-js';
 
 @Injectable()
 export class AuthService {
+  auth0User: Auth0User;
 
   auth0 = new auth0.WebAuth({
-    clientID: 'lV3PjkBaigkSP05Lv0gSkHK6VIH6xHkK',
-    domain: 'bk-tmp.auth0.com',
+    clientID: environment.AUTHO_CLIENT_ID,
+    domain: environment.AUTH0_DOMAIN,
     responseType: 'token id_token',
-    redirectUri: 'http://localhost:4200/',
+    redirectUri: environment.AUTH0_REDIRECT_URL,
     scope: 'openid'
   });
 
-  constructor(public router: Router) {
+  constructor(private router: Router, private userService: UserService) {
   }
 
   public login(): void {
@@ -37,14 +42,6 @@ export class AuthService {
     });
   }
 
-  private setSession(authResult): void {
-    // Set the time that the Access Token will expire at
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
-  }
-
   public logout(): void {
     // Remove tokens and expiry time from localStorage
     localStorage.removeItem('access_token');
@@ -59,5 +56,29 @@ export class AuthService {
     // Access Token's expiry time
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+  }
+
+  private loadUser(): void {
+    this.auth0.client.userInfo(this.accessToken, (err, authResult): void => {
+      if (!err) {
+        this.auth0User = plainToClass(Auth0User, authResult);
+      } else {
+        // TODO: Handle error
+        console.error(`Could not get user info for token ${this.accessToken}`);
+      }
+    });
+  }
+
+  private get accessToken(): string {
+    return localStorage.getItem('access_token');
+  }
+
+  private setSession(authResult): void {
+    // Set the time that the Access Token will expire at
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
+    this.loadUser();
   }
 }
