@@ -65,13 +65,6 @@
           </li>
           <li>
             <a
-              routerLink="/register">
-              <mat-icon class="icon">verified_user</mat-icon>
-              <span class="label">Register</span>
-            </a>
-          </li>
-          <li>
-            <a
               *ngIf="auth.isAuthenticated()"
               (click)="auth.logout()" type="button"
             >
