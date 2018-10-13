@@ -1,37 +1,41 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './components/app/app.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MaterialModule} from './material.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import { WelcomeComponent } from './components/welcome/welcome.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import {AppComponent} from './components/app/app.component';
 import {AppRouters} from './app.routes';
-import {DataService} from './services/data.service';
 import {AuthService} from './services/auth.service';
-import { PostDialogComponent } from './components/post-dialog/post-dialog.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {DataService} from './services/data.service';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
+import {MaterialModule} from './material.module';
+import {PostDialogComponent} from './components/post-dialog/post-dialog.component';
+import {WelcomeComponent} from './components/welcome/welcome.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeComponent,
     DashboardComponent,
-    PostDialogComponent
+    PostDialogComponent,
+    WelcomeComponent,
   ],
   imports: [
+    AppRouters,
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialModule,
     FlexLayoutModule,
-    AppRouters,
+    MaterialModule,
     FormsModule,
   ],
-  providers: [DataService, AuthService],
+  providers: [
+    AuthService,
+    DataService
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     PostDialogComponent
   ],
 })
-export class AppModule { }
+export class AppModule {
+}
