@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {User} from '../models/User';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {map, shareReplay} from 'rxjs/operators';
+import {catchError, map, shareReplay} from 'rxjs/operators';
 import {classToPlain, plainToClass} from 'class-transformer';
 import {ResponseEntity} from '../models/ResponseEntity';
 
@@ -11,10 +11,16 @@ export class UserService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getUserByUsername(username: string): Observable<User> {
-    return this.httpClient.get<ResponseEntity<User>>(`/api/users/${username}`)
+  getUserById(id: string): Observable<User> {
+    return this.httpClient.get<ResponseEntity<User>>(`/api/users/${id}`)
       .pipe(
-        map((res) => plainToClass(User, res.body)),
+        map((user) => {
+          return plainToClass(User, user);
+        }),
+        catchError((err) => {
+          console.error(err);
+          return throwError(err);
+        }),
         shareReplay(1)
       );
   }
