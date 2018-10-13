@@ -12,15 +12,19 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {FormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
 import {PostDialogComponent} from './components/post-dialog/post-dialog.component';
-import {RegistrationModule} from './components/registration/registration.module';
 import {WelcomeComponent} from './components/welcome/welcome.component';
+
+import {AllUsersComponent} from './components/registration/all-users/all-users.component';
+import {RegistrationComponent} from './components/registration/registration/registration.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AllUsersComponent,
     DashboardComponent,
     PostDialogComponent,
-    WelcomeComponent,
+    RegistrationComponent,
+    WelcomeComponent
   ],
   imports: [
     AppRouters,
@@ -28,8 +32,7 @@ import {WelcomeComponent} from './components/welcome/welcome.component';
     BrowserAnimationsModule,
     FormsModule,
     FlexLayoutModule,
-    MaterialModule,
-    RegistrationModule
+    MaterialModule
   ],
   providers: [
     AuthService,
