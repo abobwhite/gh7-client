@@ -8,8 +8,8 @@ import {plainToClass} from 'class-transformer';
 import {UserService} from './user.service';
 import {User} from '../models/User';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable, ReplaySubject} from 'rxjs';
-import {flatMap} from 'rxjs/operators';
+import {Observable, ReplaySubject, Subject, throwError} from 'rxjs';
+import {catchError, flatMap, shareReplay} from 'rxjs/operators';
 
 // why do you need defining window as any?
 // check this: https://github.com/aws/aws-amplify/issues/678#issuecomment-389106098
@@ -17,12 +17,12 @@ import {flatMap} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
-  private auth0User: Auth0User;
-  private authenticatedUser: User;
   private auth0Options: any;
   private auth0: WebAuth;
+  private authenticatedUser$: Observable<User>;
+  private auth0User$: Observable<Auth0User>;
 
-  constructor(private router: Router, private userService: UserService, private http: HttpClient) {
+  constructor(private router: Router, private userService: UserService) {
     this.auth0Options = {
       audience: environment.AUTH0_AUDIENCE,
       clientID: environment.AUTHO_CLIENT_ID,
@@ -82,45 +82,36 @@ export class AuthService {
   }
 
   public getAuth0User(): Observable<Auth0User> {
-    const subject: ReplaySubject<Auth0User> = new ReplaySubject<Auth0User>();
-    if (this.auth0User) {
-      subject.next(this.auth0User);
-      subject.complete();
-    } else {
+    if (!this.auth0User$) {
+      const auth0UserSubject: Subject<Auth0User> = new Subject<Auth0User>();
       this.auth0.client.userInfo(this.accessToken, (err, authResult): void => {
         if (!err) {
-          this.auth0User = plainToClass(Auth0User, authResult);
-          subject.next(this.auth0User);
+          auth0UserSubject.next(plainToClass(Auth0User, authResult));
         } else {
-          subject.error(`Could not get user info for token ${this.accessToken}`);
+          auth0UserSubject.error(`Could not get user info for token ${this.accessToken}`);
         }
-
-        subject.complete();
       });
+
+      this.auth0User$ = auth0UserSubject.asObservable();
     }
 
-    return subject.asObservable();
+    return this.auth0User$;
   }
 
   public getAuthenticatedUser(): Observable<User> {
-    const subject: ReplaySubject<User> = new ReplaySubject<User>();
-
-    if (this.authenticatedUser) {
-      subject.next(this.authenticatedUser);
-      subject.complete();
-    } else {
-      this.userService.getUserById(this.auth0User.sub)
-        .subscribe((user: User) => {
-          this.authenticatedUser = user;
-          subject.next(this.authenticatedUser);
-          subject.complete();
-        }, (err) => {
-          subject.error(err);
-          subject.complete();
-        });
+    if (!this.authenticatedUser$) {
+      this.authenticatedUser$ = this.getAuth0User()
+        .pipe(
+          flatMap((auth0User) => this.userService.getUserById(auth0User.sub)),
+          catchError((err) => {
+            this.authenticatedUser$ = undefined;
+            return throwError(err);
+          }),
+          shareReplay(1)
+        );
     }
 
-    return subject.asObservable();
+    return this.authenticatedUser$;
   }
 
   private loadUser(): void {
@@ -129,7 +120,6 @@ export class AuthService {
         flatMap(this.getAuthenticatedUser.bind(this)),
       ).subscribe(
       (user: User) => {
-        this.authenticatedUser = user;
         this.router.navigate(['dashboard']);
       },
       (error: HttpErrorResponse) => {

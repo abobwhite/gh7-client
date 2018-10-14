@@ -1,4 +1,4 @@
-mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+mat-sidenav-container, mat-sidenav-content, mat-sidenav, main {
   height: 100%;
 }
 
@@ -13,6 +13,12 @@ a:not(.mat-menu-item) {
   &:hover,
   &:active {
     color: #e0e0e0;
+  }
+}
+
+.mobileNav {
+  a.mat-list-item {
+    color: black;
   }
 }
 

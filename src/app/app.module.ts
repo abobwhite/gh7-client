@@ -17,6 +17,7 @@ import {RouterModule} from '@angular/router';
 import {ProfileComponent} from './components/registration/profile/profile.component';
 import {AuthInterceptor} from './services/auth.interceptor';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {UserAssistanceService} from './services/userAssistance.service';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
   providers: [
     AuthService,
     UserService,
+    UserAssistanceService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
