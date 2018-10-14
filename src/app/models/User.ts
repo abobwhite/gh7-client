@@ -15,17 +15,17 @@ export class User {
   phoneNumber: PhoneNumber;
 
   @Type(() => Locale)
-  @Transform(localeArrayTransformer)
+  @Transform(localeArrayTransformer, {toClassOnly: true})
   @Transform(localeCodeArrayTransformer, {toPlainOnly: true})
   knownLanguages: Locale[];
 
   @Type(() => Locale)
-  @Transform(localeTransformer)
+  @Transform(localeTransformer, {toClassOnly: true})
   @Transform(localeCodeTransformer, {toPlainOnly: true})
   preferredLanguage: string;
 
   @Type(() => Locale)
-  @Transform(localeTransformer)
+  @Transform(localeTransformer, {toClassOnly: true})
   @Transform(localeCodeTransformer, {toPlainOnly: true})
   assistanceLanguage: string;
 
