@@ -120,6 +120,10 @@ export class AuthService {
     return this.authenticatedUser$;
   }
 
+  public clearAuthenticatedUserCache(): void {
+    this.authenticatedUser$ = undefined;
+  }
+
   private loadUser(): void {
     this.getAuth0User()
       .pipe(

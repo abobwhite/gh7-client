@@ -93,7 +93,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       save$ = this.userService.createUser(this.user);
     }
 
-    save$.subscribe(res => this.router.navigate(['/dashboard']));
+    save$.subscribe(res => {
+      this.authService.clearAuthenticatedUserCache();
+      this.router.navigate(['/dashboard']);
+    });
   }
 
   setupLanguageList() {

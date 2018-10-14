@@ -3,10 +3,10 @@ import {PhoneNumber} from '../PhoneNumber';
 export function phoneNumberDeserialize(phoneNumber: string): PhoneNumber {
   if (phoneNumber) {
     const phone = new PhoneNumber();
-    phone.areaCode = '1';
-    phone.areaCode = phoneNumber.substr(0, 3);
-    phone.exchange = phoneNumber.substr(3, 3);
-    phone.lineNumber = phoneNumber.substr(5, 4);
+    phone.countryCode = phoneNumber.substr(0, 1);
+    phone.areaCode = phoneNumber.substr(1, 3);
+    phone.exchange = phoneNumber.substr(4, 3);
+    phone.lineNumber = phoneNumber.substr(7, 4);
 
     return phone;
   }

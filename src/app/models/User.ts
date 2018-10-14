@@ -13,9 +13,9 @@ export class User {
   capabilitiesVerified: boolean;
 
   @Type(() => PhoneNumber)
-  @Transform(phoneNumberSerialize, {toClassOnly: true})
   @Transform(phoneNumberDeserialize, {toPlainOnly: true})
-  phoneNumber: PhoneNumber;
+  @Transform(phoneNumberSerialize, {toClassOnly: true})
+  phoneNumber: string;
 
   @Type(() => Locale)
   @Transform(localeArrayTransformer, {toClassOnly: true})
@@ -33,6 +33,10 @@ export class User {
   assistanceLanguage: Locale;
 
   assistanceCapabilities: ASSISTANCE_CAPABILITY[] = [];
+
+  get hasProfile(): boolean {
+    return this.phoneNumber && !!this.knownLanguages.length && !!this.preferredLanguage;
+  }
 
   get needsAssistance(): boolean {
     return !!this.assistanceLanguage;
