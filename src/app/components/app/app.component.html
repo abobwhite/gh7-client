@@ -1,25 +1,23 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav role="navigation">
-    <mat-nav-list>
+    <mat-nav-list class="mobileNav">
+      <!-- TODO: Remove this and put on homepage -->
       <a mat-list-item *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">Login</span>
       </a>
-      <a mat-list-item *ngIf="auth.isAuthenticated()" routerLink="/">
-        <mat-icon class="icon">home</mat-icon>
-        <span class="label">Home</span>
+      <a mat-list-item *ngIf="auth.isAuthenticated()" routerLink="/dashboard">
+        <fa-icon [icon]="faHandsHelping"></fa-icon>&nbsp;&nbsp;Dashboard
       </a>
-      <a mat-list-item routerLink="/dashboard">
-        <mat-icon class="icon">dashboard</mat-icon>
-        <span class="label">Dashboard</span>
+      <a mat-list-item *ngIf="auth.isAuthenticated()" routerLink="/profile">
+        <fa-icon [icon]="faUserCog"></fa-icon>&nbsp;&nbsp;Profile
       </a>
       <a mat-list-item *ngIf="auth.isAuthenticated()" (click)="auth.logout()" type="button">
-        <mat-icon class="icon">input</mat-icon>
-        <span class="label">LogOut</span>
+        <fa-icon [icon]="faSignOutAlt"></fa-icon>&nbsp;&nbsp;Log Out
       </a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content fxFlex="grow" fxLayout="column">
     <mat-toolbar color="primary">
       <div fxHide.gt-xs>
         <button mat-icon-button (click)="sidenav.toggle()">
@@ -34,12 +32,13 @@
       <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
+            <!-- TODO: Remove this and put on homepage -->
             <a *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
               <mat-icon class="icon">input</mat-icon>
               <span class="label">Login</span>
             </a>
           </li>
-          <li>
+          <li *ngIf="auth.isAuthenticated()">
             <a routerLink="/dashboard">
               <fa-icon [icon]="faHandsHelping"></fa-icon>&nbsp;&nbsp;Dashboard
             </a>
@@ -60,8 +59,8 @@
         </ul>
       </div>
     </mat-toolbar>
-    <main [@routerTransition]="getState(o)">
-      <router-outlet #o="outlet"></router-outlet>
+    <main [@routerTransition]="getState(o)" fxFlex="grow">
+      <router-outlet #o="outlet" fxFlex="none"></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

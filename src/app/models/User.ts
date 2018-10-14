@@ -27,4 +27,8 @@ export class User {
   assistanceLanguage: string;
 
   assistanceCapabilities: ASSISTANCE_CAPABILITY[];
+
+  get needsAssistance(): boolean {
+    return !!this.assistanceLanguage;
+  }
 }
