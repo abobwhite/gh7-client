@@ -22,12 +22,12 @@ export class User {
   @Type(() => Locale)
   @Transform(localeTransformer, {toClassOnly: true})
   @Transform(localeCodeTransformer, {toPlainOnly: true})
-  preferredLanguage: string;
+  preferredLanguage: Locale;
 
   @Type(() => Locale)
   @Transform(localeTransformer, {toClassOnly: true})
   @Transform(localeCodeTransformer, {toPlainOnly: true})
-  assistanceLanguage: string;
+  assistanceLanguage: Locale;
 
   assistanceCapabilities: ASSISTANCE_CAPABILITY[];
 
