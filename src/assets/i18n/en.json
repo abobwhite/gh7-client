@@ -1,5 +1,6 @@
 {
-  "welcome": "Welcome to Beacon!",
+  "welcome": "Beacon allows for both just-in-time interpretation services and enabling longer term service pairings to help navigate institutional and cultural issues.",
+  "login.register": "LOGIN / REGISTER",
 
   "profile": "Profile",
   "profile.thanksHeader": "Thank you for signing up!",

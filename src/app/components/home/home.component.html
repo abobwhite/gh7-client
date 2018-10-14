@@ -1,9 +1,40 @@
-<div style="text-align:center">
-  <h1>{{ 'welcome' | translate }}</h1>
-  <p>
-    Blah blah blah...temp login<br/><br/>
-    <button mat-raised-button color="accent" (click)="loginOrRegister()">
-      Login / Register
-    </button>
-  </p>
+<div class="home-page full-height animated-page">
+  <div fxLayout="row" class="full-height">
+    <div fxFlex="1 1 50%" fxFlex.lt-md="1 1 100%" fxLayout="column" class="home-splash full-height">
+      <div fxFlex="grow" style="padding-top: 40px">
+        <button class="btn-big" mat-raised-button color="warn" (click)="loginOrRegister()">
+          {{ 'login.register' | translate }}
+        </button>
+      </div>
+      <mat-card fxFlex="none" style="opacity: 0.85; margin-bottom: 20px">
+        <h3>{{ 'welcome' | translate }}</h3>
+      </mat-card>
+    </div>
+    <div fxFlex="1 1 50%" fxHide.lt-md fxLayout="column" style="padding-top: 50px; padding: 40px; font-size: 1.5em">
+      <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex="none" fxFlexAlign="center">
+          <fa-icon [icon]="faUserSecret" size="lg"></fa-icon>
+        </div>
+        <div fxFlex="grow" fxFlexAlign="center">
+          Anonymous phone interactions protects parties while allowing a road map for the future
+        </div>
+      </div>
+      <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex="none" fxFlexAlign="center">
+          <fa-icon [icon]="faGlobeAfrica" size="lg"></fa-icon>
+        </div>
+        <div fxFlex="grow" fxFlexAlign="center">
+          Connects people from around the globe to give and receive assistance in cultural and lingual challenges
+        </div>
+      </div>
+      <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex="none" fxFlexAlign="center">
+          <fa-icon [icon]="faAmbulance" size="lg"></fa-icon>
+        </div>
+        <div fxFlex="grow" fxFlexAlign="center">
+          Provides emergency contacts to those who need just-in-time help for serious situations
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

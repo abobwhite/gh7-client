@@ -1,0 +1,24 @@
+.home-page {
+  padding: 0 !important;
+}
+
+.home-splash {
+  background-image: url("/assets/img/beacon-splash.jpeg");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+}
+
+.full-height {
+  height: 100%;
+}
+
+h1 {
+  font-size: 5.0em;
+  color: black;
+  text-shadow: #999999 2px 2px;
+}
+
+button {
+  font-size: 1.5em;
+}
