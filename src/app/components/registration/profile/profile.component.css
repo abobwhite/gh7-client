@@ -9,7 +9,7 @@
 .card-container {
   min-height: 1px;
   text-align: center;
-  width: 50%;
+  /*width: 50%;*/
 }
 
 .mat-card {

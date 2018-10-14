@@ -1,5 +1,5 @@
 <div class="container animated-page">
-  <div class="card-container" *ngIf="auth0User">
+  <div fxFlex="50%" fxFlex.lt-md="80%" class="card-container" *ngIf="auth0User">
     <mat-card>
       <form
         [formGroup]="allUsersFormGroup"
