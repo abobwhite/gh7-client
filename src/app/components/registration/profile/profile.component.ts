@@ -11,6 +11,7 @@ import {User} from '../../../models/User';
 import {UserService} from '../../../services/user.service';
 import {Locale} from '../../../models/Locale';
 import {ASSISTANCE_CAPABILITY} from '../../../models/ASSISTANCE_CAPABILITY';
+import {Router} from '@angular/router';
 
 @Component({
   animations: [routerTransition],
@@ -42,7 +43,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   auth0User: Auth0User;
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private router: Router
+  ) {
     this.assistanceCapabilityKeys = Object.keys(ASSISTANCE_CAPABILITY).filter(String);
   }
 
@@ -130,7 +136,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
     user.assistanceCapabilities = capabilities;
 
-    this.userService.createUser(user).subscribe();
+    this.userService.createUser(user).subscribe(res => this.router.navigate(['/dashboard']));
   }
 
   capabilitiesToList() {
