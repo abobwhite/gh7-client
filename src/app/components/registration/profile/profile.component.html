@@ -12,7 +12,7 @@
         <div class="form-field">
           <mat-form-field>
             <input matInput
-                   placeholder="Given Name"
+                   [placeholder]="'profile.placeholders.givenName' | translate"
                    formControlName="givenNameControl"
                    type="text"
                    required
@@ -22,7 +22,7 @@
         <div class="form-field">
           <mat-form-field>
             <input matInput
-                   placeholder="Family Name"
+                   [placeholder]="'profile.placeholders.familyName' | translate"
                    formControlName="familyNameControl"
                    type="text"
                    required
@@ -32,7 +32,7 @@
         <div class="form-field">
           <mat-form-field>
             <input matInput
-                   placeholder="Email"
+                   [placeholder]="'profile.placeholders.email' | translate"
                    formControlName="emailControl"
                    type="text"
                    required
@@ -42,7 +42,7 @@
         <div class="form-field">
           <mat-form-field>
             <input matInput
-                   placeholder="Phone Number"
+                   [placeholder]="'profile.placeholders.phoneNumber' | translate"
                    formControlName="phoneNumberControl"
                    type="string"
                    required
@@ -52,7 +52,7 @@
         <div class="form-field">
           <mat-form-field>
             <mat-select
-              placeholder="Known Languages"
+              [placeholder]="'profile.placeholders.knownLanguages' | translate"
               multiple
               formControlName="knownLanguageControl"
               (selectionChange)="changeKnownLanguage($event)">
@@ -64,7 +64,7 @@
         <div class="form-field">
           <mat-form-field>
             <mat-select
-              placeholder="Preferred Language"
+              [placeholder]="'profile.placeholders.preferredLanguage' | translate"
               formControlName="preferredLanguageControl">
               <mat-option *ngFor="let locale of knownLocales" [value]="locale">
                 {{locale.displayName}}
@@ -95,7 +95,7 @@
               </mat-checkbox>
               <mat-form-field>
                 <mat-select
-                  placeholder="Language"
+                  [placeholder]="'profile.placeholders.assistedLanguage' | translate"
                   [disabled]="!requiresTranslationOrCulturalAid"
                   formControlName="assistanceLanguageControl"
                   (selectionChange)="changeAssistanceLanguage($event)">
@@ -124,12 +124,12 @@
                             (change)="changeCapabilities($event);"
               >
                 <div class="checkbox-text">
-                  Are you interested in providing translation or cultural aid to others?
+                  {{ 'profile.offerAssistanceCheck' | translate }}
                 </div>
               </mat-checkbox>
               <mat-form-field>
                 <mat-select
-                  placeholder="Assistance Capabilities"
+                  [placeholder]="'profile.placeholder.assistanceCapabilities' | translate"
                   multiple
                   [disabled]="!interestedInTranslationOrCulturalAidForOthers"
                   formControlName="assistanceCapabilitiesControl"
@@ -152,7 +152,7 @@
             <button
               mat-raised-button
               color="warn"
-              type="submit">Submit
+              type="submit">{{ 'profile.submit' | translate }}
             </button>
           </div>
         </div>
