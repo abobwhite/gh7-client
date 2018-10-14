@@ -10,6 +10,7 @@ import {User} from '../models/User';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable, ReplaySubject, Subject, throwError} from 'rxjs';
 import {catchError, flatMap, shareReplay} from 'rxjs/operators';
+import {TranslateService} from '@ngx-translate/core';
 
 // why do you need defining window as any?
 // check this: https://github.com/aws/aws-amplify/issues/678#issuecomment-389106098
@@ -22,7 +23,7 @@ export class AuthService {
   private authenticatedUser$: Observable<User>;
   private auth0User$: Observable<Auth0User>;
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, private userService: UserService, private translate: TranslateService) {
     this.auth0Options = {
       audience: environment.AUTH0_AUDIENCE,
       clientID: environment.AUTHO_CLIENT_ID,
@@ -110,6 +111,8 @@ export class AuthService {
           shareReplay(1)
         );
     }
+
+    this.authenticatedUser$.subscribe((user) => this.translate.use(user.preferredLanguage.language));
 
     return this.authenticatedUser$;
   }

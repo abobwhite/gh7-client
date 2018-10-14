@@ -3,6 +3,7 @@ import {AuthService} from '../../services/auth.service';
 import {routerTransition} from '../registration/animations/router.transition';
 import {Router} from '@angular/router';
 import {faBroadcastTower, faUserCircle, faSignOutAlt, faHandsHelping, faUserCog} from '@fortawesome/free-solid-svg-icons';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   animations: [routerTransition],
@@ -17,7 +18,8 @@ export class AppComponent {
   faHandsHelping = faHandsHelping;
   faUserCog = faUserCog;
 
-  constructor(public auth: AuthService, private router: Router) {
+  constructor(public auth: AuthService, private router: Router, private translate: TranslateService) {
+    translate.setDefaultLang('en');
     auth.handleAuthentication();
   }
 
