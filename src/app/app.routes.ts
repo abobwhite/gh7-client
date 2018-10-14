@@ -5,9 +5,10 @@ import {ProfileComponent} from './components/registration/profile/profile.compon
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {HomeComponent} from './components/home/home.component';
 import {AuthGuard} from './auth.guard';
+import {NoAuthGuard} from './no.auth.guard';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, pathMatch: 'full'},
+  {path: '', component: HomeComponent, pathMatch: 'full', canActivate: [NoAuthGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]}
 ];
