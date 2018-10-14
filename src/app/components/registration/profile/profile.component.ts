@@ -7,6 +7,9 @@ import {AuthService} from '../../../services/auth.service';
 import {Auth0User} from '../../../models/Auth0User';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {User} from '../../../models/User';
+import {UserService} from '../../../services/user.service';
+import {Locale} from '../../../models/Locale';
 
 @Component({
   animations: [routerTransition],
@@ -16,6 +19,8 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
+  private unsubscriber: Subject<any> = new Subject();
+
   allUsersFormGroup: FormGroup;
 
   givenName: string;
@@ -24,17 +29,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
   phoneNumber: string;
   preferredLanguage: string;
 
-  knownLanguages: any = [];
+  knownLocales: any = [];
+  localeList: any = [];
+
   requiresTranslationOrCulturalAid: boolean;
   interestedInTranslationOrCulturalAidForOthers: boolean;
 
-  languageList: any = [];
-
   auth0User: Auth0User;
-  private unsubscriber: Subject<any> = new Subject();
 
-  constructor(private formBuilder: FormBuilder,
-              private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private userService: UserService
+  ) {
   }
 
   ngOnInit() {
@@ -56,16 +63,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   register() {
-    this.populateUser();
-
+    this.createUser();
   }
 
   setupLanguageList() {
-    this.languageList = [
-      'English',
-      'Spanish',
-      'French'
-    ];
+    this.localeList = [];
+    this.localeList.push(new Locale('English', 'United States'));
+    this.localeList.push(new Locale('Spanish', 'Mexico'));
+    this.localeList.push(new Locale('Spanish', 'Spain'));
+    this.localeList.push(new Locale('French', 'France'));
+    this.localeList.push(new Locale('French', 'Canada'));
   }
 
   setupFormGroup() {
@@ -74,7 +81,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       familyNameControl: [this.auth0User.familyName, Validators.required, this.familyName],
       emailControl: [{value: this.auth0User.email, disabled: true}, Validators.required, this.email],
       phoneNumberControl: [this.phoneNumber, Validators.required],
-      knownLanguageControl: [this.knownLanguages],
+      knownLanguageControl: [this.knownLocales],
       preferredLanguageControl: [this.preferredLanguage],
       requiresTranslationOrCulturalAidControl: [this.requiresTranslationOrCulturalAid],
       interestedInTranslationOrCulturalAidForOthersControl: [this.interestedInTranslationOrCulturalAidForOthers]
@@ -82,12 +89,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   changeKnownLanguage(event) {
-    this.knownLanguages = event.value;
+    this.knownLocales = event.value;
   }
 
-  populateUser() {
-    this.auth0User.givenName = this.allUsersFormGroup.get('givenNameControl').value;
-    this.auth0User.familyName = this.allUsersFormGroup.get('familyNameControl').value;
-    this.auth0User.email = this.allUsersFormGroup.get('emailControl').value;
+  createUser() {
+    const user = new User();
+    user.givenName = this.allUsersFormGroup.get('givenNameControl').value;
+    user.familyName = this.allUsersFormGroup.get('familyNameControl').value;
+    user.email = this.allUsersFormGroup.get('emailControl').value;
+    user.phoneNumber = this.allUsersFormGroup.get('phoneNumberControl').value;
+    user.knownLanguages = this.allUsersFormGroup.get('knownLanguageControl').value;
+    user.preferredLanguage = this.allUsersFormGroup.get('preferredLanguageControl').value;
+
+    this.userService.createUser(user);
   }
 }
