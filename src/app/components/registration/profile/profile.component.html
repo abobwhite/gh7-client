@@ -56,7 +56,7 @@
               multiple
               formControlName="knownLanguageControl"
               (selectionChange)="changeKnownLanguage($event)">
-              <mat-option *ngFor="let local of localeList" [value]="local">{{local.language}} - {{local.country}}
+              <mat-option *ngFor="let local of localeList" [value]="local">{{local.country}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -66,7 +66,7 @@
             <mat-select
               placeholder="Preferred Language"
               formControlName="preferredLanguageControl">
-              <mat-option *ngFor="let locale of knownLocales" [value]="locale">{{locale.language}} -
+              <mat-option *ngFor="let locale of knownLocales" [value]="locale">
                 {{locale.country}}
               </mat-option>
             </mat-select>
@@ -99,7 +99,7 @@
                   [disabled]="!requiresTranslationOrCulturalAid"
                   formControlName="assistanceLanguageControl"
                   (selectionChange)="changeAssistanceLanguage($event)">
-                  <mat-option *ngFor="let local of localeList" [value]="local">{{local.language}} - {{local.country}}
+                  <mat-option *ngFor="let local of localeList" [value]="local">{{local.country}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

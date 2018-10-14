@@ -77,11 +77,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   setupLanguageList() {
     this.localeList = [];
-    this.localeList.push(new Locale('English', 'United States'));
-    this.localeList.push(new Locale('Spanish', 'Mexico'));
-    this.localeList.push(new Locale('Spanish', 'Spain'));
-    this.localeList.push(new Locale('French', 'France'));
-    this.localeList.push(new Locale('French', 'Canada'));
+    this.localeList.push(new Locale('en_US', 'English (United States)'));
+    this.localeList.push(new Locale('es_MX', 'Spanish (Mexico)'));
+    this.localeList.push(new Locale('es_ES', 'Spanish (Spain)'));
+    this.localeList.push(new Locale('fr_FR', 'French (France)'));
+    this.localeList.push(new Locale('fr_CA', 'French (Canada)'));
   }
 
   setupFormGroup() {
