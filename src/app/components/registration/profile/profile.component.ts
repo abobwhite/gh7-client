@@ -40,14 +40,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   requiresTranslationOrCulturalAid = false;
   interestedInTranslationOrCulturalAidForOthers = false;
 
-
   auth0User: Auth0User;
 
-  constructor(
-    private authService: AuthService,
-    private formBuilder: FormBuilder,
-    private userService: UserService
-  ) {
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private userService: UserService) {
     this.assistanceCapabilityKeys = Object.keys(ASSISTANCE_CAPABILITY).filter(String);
   }
 
@@ -130,7 +125,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     user.assistanceLanguage = this.allUsersFormGroup.get('assistanceLanguageControl').value;
 
     const capabilities = [];
-    for(const cap of this.allUsersFormGroup.get('assistanceCapabilitiesControl').value) {
+    for (const cap of this.allUsersFormGroup.get('assistanceCapabilitiesControl').value) {
       capabilities.push(this.reverseCapabilityLookup(cap));
     }
     user.assistanceCapabilities = capabilities;

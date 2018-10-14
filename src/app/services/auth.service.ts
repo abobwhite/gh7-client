@@ -7,8 +7,8 @@ import {Auth0User} from '../models/Auth0User';
 import {plainToClass} from 'class-transformer';
 import {UserService} from './user.service';
 import {User} from '../models/User';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable, ReplaySubject, Subject, throwError} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Observable, ReplaySubject, throwError} from 'rxjs';
 import {catchError, flatMap, shareReplay} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 
@@ -84,7 +84,7 @@ export class AuthService {
 
   public getAuth0User(): Observable<Auth0User> {
     if (!this.auth0User$) {
-      const auth0UserSubject: Subject<Auth0User> = new Subject<Auth0User>();
+      const auth0UserSubject: ReplaySubject<Auth0User> = new ReplaySubject<Auth0User>();
       this.auth0.client.userInfo(this.accessToken, (err, authResult): void => {
         if (!err) {
           auth0UserSubject.next(plainToClass(Auth0User, authResult));
@@ -123,7 +123,9 @@ export class AuthService {
         flatMap(this.getAuthenticatedUser.bind(this)),
       ).subscribe(
       (user: User) => {
-        this.router.navigate(['dashboard']);
+        if (!this.router.isActive('profile', false)) {
+          this.router.navigate(['dashboard']);
+        }
       },
       (error: HttpErrorResponse) => {
         this.router.navigate(['profile']);

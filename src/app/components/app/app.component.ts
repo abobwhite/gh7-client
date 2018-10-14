@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {routerTransition} from '../registration/animations/router.transition';
 import {Router} from '@angular/router';
-import {faBroadcastTower, faUserCircle, faSignOutAlt, faHandsHelping, faUserCog} from '@fortawesome/free-solid-svg-icons';
+import {faBroadcastTower, faHandsHelping, faSignOutAlt, faUserCircle, faUserCog} from '@fortawesome/free-solid-svg-icons';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
