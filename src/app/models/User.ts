@@ -9,6 +9,7 @@ export class User {
   email: string;
   givenName: string;
   familyName: string;
+  capabilitiesVerified: boolean;
 
   @Type(() => PhoneNumber)
   phoneNumber: PhoneNumber;
