@@ -14,4 +14,12 @@ $beacon-app-theme: mat-light-theme($beacon-app-primary, $beacon-app-accent, $bea
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
+
+$beacon-typography: mat-typography-config(
+  $font-family: 'Open Sans, sans-serif',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+
+@include mat-core($beacon-typography);
 @include angular-material-theme($beacon-app-theme);
