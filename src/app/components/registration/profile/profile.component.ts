@@ -10,6 +10,7 @@ import {takeUntil} from 'rxjs/operators';
 import {User} from '../../../models/User';
 import {UserService} from '../../../services/user.service';
 import {Locale} from '../../../models/Locale';
+import {ASSISTANCE_CAPABILITY} from '../../../models/ASSISTANCE_CAPABILITY';
 
 @Component({
   animations: [routerTransition],
@@ -23,17 +24,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   allUsersFormGroup: FormGroup;
 
-  givenName: string;
-  familyName: string;
+  assistanceLanguage: string;
   email: string;
+  familyName: string;
+  givenName: string;
   phoneNumber: string;
   preferredLanguage: string;
 
   knownLocales: any = [];
   localeList: any = [];
+  assistanceCapabilityKeys = [];
+  assistanceCapabilities = [];
+  assistanceCapabilitiesAsReadableList = [];
 
-  requiresTranslationOrCulturalAid: boolean;
-  interestedInTranslationOrCulturalAidForOthers: boolean;
+  requiresTranslationOrCulturalAid = false;
+  interestedInTranslationOrCulturalAidForOthers = false;
+
 
   auth0User: Auth0User;
 
@@ -42,9 +48,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private userService: UserService
   ) {
+    this.assistanceCapabilityKeys = Object.keys(ASSISTANCE_CAPABILITY).filter(String);
   }
 
   ngOnInit() {
+    this.capabilitiesToList();
+
     this.authService.getAuth0User()
       .pipe(
         takeUntil(this.unsubscriber)
@@ -63,7 +72,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   register() {
-    alert(this.interestedInTranslationOrCulturalAidForOthers);
     this.createUser();
   }
 
@@ -85,12 +93,30 @@ export class ProfileComponent implements OnInit, OnDestroy {
       knownLanguageControl: [this.knownLocales],
       preferredLanguageControl: [this.preferredLanguage],
       requiresTranslationOrCulturalAidControl: [this.requiresTranslationOrCulturalAid],
-      interestedInTranslationOrCulturalAidForOthersControl: [this.interestedInTranslationOrCulturalAidForOthers]
+      interestedInTranslationOrCulturalAidForOthersControl: [this.interestedInTranslationOrCulturalAidForOthers],
+      assistanceLanguageControl: [{value: this.assistanceLanguage, disabled: true}],
+      assistanceCapabilitiesControl: [{value: this.assistanceCapabilities, disabled: true}]
     });
   }
 
   changeKnownLanguage(event) {
     this.knownLocales = event.value;
+  }
+
+  changeAid(event) {
+    this.requiresTranslationOrCulturalAid = event.checked;
+  }
+
+  changeCapabilities(event) {
+    this.interestedInTranslationOrCulturalAidForOthers = event.checked;
+  }
+
+  changeAssistanceLanguage(event) {
+    this.assistanceLanguage = event.value.language;
+  }
+
+  changeAssistanceCapabilities(event) {
+    this.assistanceLanguage = event.value;
   }
 
   createUser() {
@@ -101,11 +127,27 @@ export class ProfileComponent implements OnInit, OnDestroy {
     user.phoneNumber = this.allUsersFormGroup.get('phoneNumberControl').value;
     user.knownLanguages = this.allUsersFormGroup.get('knownLanguageControl').value;
     user.preferredLanguage = this.allUsersFormGroup.get('preferredLanguageControl').value;
+    user.assistanceLanguage = this.allUsersFormGroup.get('assistanceLanguageControl').value;
 
     this.userService.createUser(user);
   }
 
-  showVal() {
-    alert(this.interestedInTranslationOrCulturalAidForOthers);
+  capabilitiesToList() {
+    for (const cap of this.assistanceCapabilityKeys) {
+      let parsed = cap.replace('_TRANSLATION', '');
+      parsed = parsed.replace('_', ' ');
+      parsed = parsed.toLowerCase()
+        .split(' ')
+        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        .join(' ');
+      this.assistanceCapabilitiesAsReadableList.push(parsed);
+    }
+  }
+
+  reverseCapabilityLookup(capability) {
+    return capability
+      .toUpperCase()
+      .replace(' ', '_')
+      .concat('_TRANSLATION');
   }
 }

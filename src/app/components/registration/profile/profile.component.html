@@ -81,17 +81,28 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Assistance in translation and cultural aid
+                Looking for assistance in translation or cultural aid?
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div>
               <mat-checkbox placeholder="Requires Translation or Cultural Aid"
                             formControlName="requiresTranslationOrCulturalAidControl"
+                            (change)="changeAid($event);"
               >
                 <div class="checkbox-text">
                   Check here if you need assistance in translation or cultural aid.
                 </div>
               </mat-checkbox>
+              <mat-form-field>
+                <mat-select
+                  placeholder="Language"
+                  [disabled]="!requiresTranslationOrCulturalAid"
+                  formControlName="assistanceLanguageControl"
+                  (selectionChange)="changeAssistanceLanguage($event)">
+                  <mat-option *ngFor="let local of localeList" [value]="local">{{local.language}} - {{local.country}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </mat-expansion-panel>
         </div>
@@ -110,11 +121,23 @@
             <div>
               <mat-checkbox placeholder="Interested in Providing Translation or Cultural Aid for Others"
                             formControlName="interestedInTranslationOrCulturalAidForOthersControl"
+                            (change)="changeCapabilities($event);"
               >
                 <div class="checkbox-text">
                   Are you interested in providing translation or cultural aid to others?
                 </div>
               </mat-checkbox>
+              <mat-form-field>
+                <mat-select
+                  placeholder="Assistance Capabilities"
+                  [disabled]="!interestedInTranslationOrCulturalAidForOthers"
+                  formControlName="assistanceCapabilitiesControl"
+                  (selectionChange)="changeAssistanceCapabilities($event)">
+                  <mat-option *ngFor="let key of assistanceCapabilitiesAsReadableList" [value]="key">
+                    {{key}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </mat-expansion-panel>
         </div>
