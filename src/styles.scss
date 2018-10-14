@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+app-root {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 3.0em;
+}
+
+h2 {
+  font-size: 2.2em;
+}
+
+h3 {
+  font-size: 1.4em;
+}
+
+.btn-full-width, .flex-layout-full-width {
+  width: 100%;
+}
+
+.btn-big {
+  padding: 20px !important;
+}
+
+router-outlet + * {
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+.loading-spinner {
+  margin: 0 auto;
+}
+
+.page-component-container {
+  background-color: #e0e0e0;
+  padding: 1em;
+  height: 100%;
+}
+
+.align-right {
+  text-align: right;
+}

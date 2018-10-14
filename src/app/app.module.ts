@@ -18,6 +18,8 @@ import {ProfileComponent} from './components/registration/profile/profile.compon
 import {AuthInterceptor} from './services/auth.interceptor';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {UserAssistanceService} from './services/userAssistance.service';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material';
+import {AuthGuard} from './auth.guard';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import {UserAssistanceService} from './services/userAssistance.service';
     AuthService,
     UserService,
     UserAssistanceService,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    AuthGuard,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000}}
   ],
   bootstrap: [AppComponent],
   entryComponents: [

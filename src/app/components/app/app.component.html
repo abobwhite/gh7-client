@@ -1,11 +1,6 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav role="navigation">
     <mat-nav-list class="mobileNav">
-      <!-- TODO: Remove this and put on homepage -->
-      <a mat-list-item *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
-        <mat-icon class="icon">input</mat-icon>
-        <span class="label">Login</span>
-      </a>
       <a mat-list-item *ngIf="auth.isAuthenticated()" routerLink="/dashboard">
         <fa-icon [icon]="faHandsHelping"></fa-icon>&nbsp;&nbsp;Dashboard
       </a>
@@ -31,13 +26,6 @@
       </div>
       <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
-          <li>
-            <!-- TODO: Remove this and put on homepage -->
-            <a *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
-              <mat-icon class="icon">input</mat-icon>
-              <span class="label">Login</span>
-            </a>
-          </li>
           <li *ngIf="auth.isAuthenticated()">
             <a routerLink="/dashboard">
               <fa-icon [icon]="faHandsHelping"></fa-icon>&nbsp;&nbsp;Dashboard
@@ -48,6 +36,9 @@
               <fa-icon [icon]="faUserCircle" size="2x"></fa-icon>
             </button>
             <mat-menu #userMenu="matMenu">
+              <span mat-menu-item type="button">
+                {{ (auth.getAuthenticatedUser() | async)?.fullName }}
+              </span>
               <a mat-menu-item routerLink="/profile" type="button">
                 <fa-icon [icon]="faUserCog"></fa-icon>&nbsp;&nbsp;Profile
               </a>
