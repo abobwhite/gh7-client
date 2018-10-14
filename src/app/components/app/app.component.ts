@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {routerTransition} from '../registration/animations/router.transition';
 import {Router} from '@angular/router';
-import {faBroadcastTower, faHandsHelping, faSignOutAlt, faUserCircle, faUserCog} from '@fortawesome/free-solid-svg-icons';
+import {faSun, faHandsHelping, faSignOutAlt, faUserCircle, faUserCog} from '@fortawesome/free-solid-svg-icons';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -12,7 +12,7 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  faBroadcastTower = faBroadcastTower;
+  faSun = faSun;
   faUserCircle = faUserCircle;
   faSignOutAlt = faSignOutAlt;
   faHandsHelping = faHandsHelping;

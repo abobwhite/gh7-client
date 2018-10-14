@@ -12,7 +12,7 @@ export class UserService {
   }
 
   getUserById(id: string): Observable<User> {
-    return this.httpClient.get<ResponseEntity<User>>(`/api/users/${id}`)
+    return this.httpClient.get<ResponseEntity<User>>(`/api/users/${encodeURIComponent(id)}`)
       .pipe(
         map((user) => {
           return plainToClass(User, user);
@@ -33,8 +33,7 @@ export class UserService {
   }
 
   updateUser(userId: string, changedProps: any): Observable<User> {
-    return this.httpClient.patch<ResponseEntity<User>>(`/api/users/${userId}`, changedProps)
-      .pipe(
+    return this.httpClient.patch<ResponseEntity<User>>(`/api/users/${encodeURIComponent(userId)}`, changedProps)      .pipe(
         map((res) => plainToClass(User, res))
       );
   }
