@@ -5,13 +5,14 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {routerTransition} from '../animations/router.transition';
 import {AuthService} from '../../../services/auth.service';
 import {Auth0User} from '../../../models/Auth0User';
-import {Subject} from 'rxjs';
+import {forkJoin, Observable, of, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {User} from '../../../models/User';
 import {UserService} from '../../../services/user.service';
 import {Locale} from '../../../models/Locale';
 import {ASSISTANCE_CAPABILITY} from '../../../models/ASSISTANCE_CAPABILITY';
 import {Router} from '@angular/router';
+import {find} from 'lodash';
 
 @Component({
   animations: [routerTransition],
@@ -25,15 +26,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   allUsersFormGroup: FormGroup;
 
-  assistanceLanguage: string;
+  assistanceLanguage: Locale;
   email: string;
   familyName: string;
   givenName: string;
   phoneNumber: string;
-  preferredLanguage: string;
+  preferredLanguage: Locale;
 
-  knownLocales: any = [];
-  localeList: any = [];
+  knownLocales: Locale[] = [];
+  localeList: Locale[] = [];
   assistanceCapabilityKeys = [];
   assistanceCapabilities = [];
   assistanceCapabilitiesAsReadableList = [];
@@ -42,6 +43,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   interestedInTranslationOrCulturalAidForOthers = false;
 
   auth0User: Auth0User;
+  user: User;
+  editing = false;
 
   constructor(
     private authService: AuthService,
@@ -55,12 +58,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.capabilitiesToList();
 
-    this.authService.getAuth0User()
+    forkJoin(this.authService.getAuth0User(), this.authService.getAuthenticatedUser())
       .pipe(
         takeUntil(this.unsubscriber)
       )
-      .subscribe((auth0User) => {
+      .subscribe(([auth0User, user]) => {
         this.auth0User = auth0User;
+        if (user) {
+          this.user = user;
+          this.editing = true;
+        } else {
+          const newUser = new User();
+          newUser.id = auth0User.sub;
+          this.user = newUser;
+        }
         this.setupFormGroup();
       });
 
@@ -72,8 +83,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.unsubscriber.complete();
   }
 
-  register() {
-    this.createUser();
+  saveUser() {
+    this.mapFieldsToUser();
+
+    let save$: Observable<User> = of(null);
+    if (this.editing) {
+      // save$ = this.userService.updateUser(this.user.id, {});
+    } else {
+      save$ = this.userService.createUser(this.user);
+    }
+
+    save$.subscribe(res => this.router.navigate(['/dashboard']));
   }
 
   setupLanguageList() {
@@ -87,17 +107,27 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   setupFormGroup() {
     this.allUsersFormGroup = this.formBuilder.group({
-      givenNameControl: [this.auth0User.givenName, Validators.required, this.givenName],
-      familyNameControl: [this.auth0User.familyName, Validators.required, this.familyName],
-      emailControl: [{value: this.auth0User.email, disabled: true}, Validators.required, this.email],
-      phoneNumberControl: [this.phoneNumber, Validators.required],
-      knownLanguageControl: [this.knownLocales],
-      preferredLanguageControl: [this.preferredLanguage],
-      requiresTranslationOrCulturalAidControl: [this.requiresTranslationOrCulturalAid],
-      interestedInTranslationOrCulturalAidForOthersControl: [this.interestedInTranslationOrCulturalAidForOthers],
-      assistanceLanguageControl: [{value: this.assistanceLanguage, disabled: true}],
-      assistanceCapabilitiesControl: [{value: this.assistanceCapabilities, disabled: true}]
+      givenNameControl: [this.auth0User.givenName || this.user.givenName, Validators.required, this.givenName],
+      familyNameControl: [this.auth0User.familyName || this.user.familyName, Validators.required, this.familyName],
+      emailControl: [{value: this.auth0User.email || this.user.email, disabled: true}, Validators.required, this.email],
+      phoneNumberControl: [this.user.phoneNumber, Validators.required],
+      knownLanguageControl: [this.user.knownLanguages],
+      preferredLanguageControl: [this.user.preferredLanguage],
+      requiresTranslationOrCulturalAidControl: [this.user.needsAssistance],
+      interestedInTranslationOrCulturalAidForOthersControl: [this.user.canAssist],
+      assistanceLanguageControl: [{value: this.user.assistanceLanguage, disabled: !this.user.canAssist}],
+      assistanceCapabilitiesControl: [{value: this.user.assistanceCapabilities, disabled: !this.user.canAssist}]
     });
+
+    // this.allUsersFormGroup.setControl('preferredLanguageControl',
+    //   find(this.localeList, {localeCode: this.user.preferredLanguage.localeCode}));
+    // this.knownLocales = this.localeList.filter((locale) => {
+    //   return !!find(this.user.knownLanguages, {localeCode: locale.localeCode});
+    // });
+    // this.requiresTranslationOrCulturalAid = this.user.needsAssistance;
+    // this.assistanceLanguage = find(this.localeList, {localeCode: this.user.assistanceLanguage.localeCode});
+    // this.interestedInTranslationOrCulturalAidForOthers = this.user.canAssist;
+    // this.assistanceCapabilities = this.user.assistanceCapabilities;
   }
 
   changeKnownLanguage(event) {
@@ -120,23 +150,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.assistanceCapabilities = event.value;
   }
 
-  createUser() {
-    const user = new User();
-    user.givenName = this.allUsersFormGroup.get('givenNameControl').value;
-    user.familyName = this.allUsersFormGroup.get('familyNameControl').value;
-    user.email = this.allUsersFormGroup.get('emailControl').value;
-    user.phoneNumber = this.allUsersFormGroup.get('phoneNumberControl').value;
-    user.knownLanguages = this.allUsersFormGroup.get('knownLanguageControl').value;
-    user.preferredLanguage = this.allUsersFormGroup.get('preferredLanguageControl').value;
-    user.assistanceLanguage = this.allUsersFormGroup.get('assistanceLanguageControl').value;
+  mapFieldsToUser() {
+    this.user.givenName = this.allUsersFormGroup.get('givenNameControl').value;
+    this.user.familyName = this.allUsersFormGroup.get('familyNameControl').value;
+    this.user.email = this.allUsersFormGroup.get('emailControl').value;
+    this.user.phoneNumber = this.allUsersFormGroup.get('phoneNumberControl').value;
+    this.user.knownLanguages = this.allUsersFormGroup.get('knownLanguageControl').value;
+    this.user.preferredLanguage = this.allUsersFormGroup.get('preferredLanguageControl').value;
+    this.user.assistanceLanguage = this.allUsersFormGroup.get('assistanceLanguageControl').value;
 
     const capabilities = [];
     for (const cap of this.allUsersFormGroup.get('assistanceCapabilitiesControl').value) {
       capabilities.push(this.reverseCapabilityLookup(cap));
     }
-    user.assistanceCapabilities = capabilities;
-
-    this.userService.createUser(user).subscribe(res => this.router.navigate(['/dashboard']));
+    this.user.assistanceCapabilities = capabilities;
   }
 
   capabilitiesToList() {
