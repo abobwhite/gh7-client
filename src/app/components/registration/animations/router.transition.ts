@@ -2,39 +2,21 @@ import { trigger, animate, style, group, query, transition, stagger } from '@ang
 
 export const routerTransition = trigger('routerTransition', [
   transition('* <=> *', [
-    // group([
-    //   query(':enter .mat-card', style({ opacity: 0, height: 0 })
-    //     , { optional: true }),
-    //   query(':leave .mat-card', [
-    //     stagger(100, [
-    //       style({ transform: 'translateX(0%)', opacity: 1, height: '!' }),
-    //       animate('400ms 250ms cubic-bezier(.75,-0.50,.25,1.50)',
-    //         style({ transform: 'translateX(100%)', opacity: 0, height: 0 }))]),
-    //   ], { optional: true }),
-    // ]),
-    // query(':enter .mat-card', [
-    //   // style({ opacity: 0, height: 0 }),
-    //   stagger(100, [
-    //     style({ transform: 'translateX(100%)', opacity: 0, height: 0 }),
-    //     animate('400ms 250ms cubic-bezier(.75,-0.50,.25,1.50)',
-    //       style({ transform: 'translateX(0%)', opacity: 1, height: '*' })),
-    //   ])], { optional: true }),
     group([
-      query(':enter .animated-page', style({ opacity: 0, height: 0 })
+      query(':enter .animated-page', style({ opacity: 0, /* height: 0, */ width: 0 })
         , { optional: true }),
-      query(':leave .animated-page', [
-        stagger(100, [
-          style({ transform: 'translateX(0%)', opacity: 1, height: '!' }),
-          animate('400ms .25s cubic-bezier(.75,-0.50,.20,1.50)',
-            style({ transform: 'translateX(100%)', opacity: 0, height: 0 }))]),
-      ], { optional: true }),
+      // query(':leave .animated-page', [
+      //   stagger(100, [
+      //     style({ transform: 'translateX(0%)', opacity: 1, height: '!' }),
+      //     animate('.25s 1s linear',
+      //       style({ transform: 'translateX(100%)', opacity: 0, /*height: 0,*/ width: 0 }))]),
+      // ], { optional: true }),
     ]),
     query(':enter .animated-page', [
-      // style({ opacity: 0, height: 0 }),
       stagger(100, [
-        style({ transform: 'translateX(100%)', opacity: 0, height: 0 }),
-        animate('400ms .25s cubic-bezier(.75,-0.50,.20,1.50)',
-          style({ transform: 'translateX(0%)', opacity: 1, height: '*' })),
+        style({ transform: 'translateX(100%)', opacity: 0}),
+        animate('.25s 1s linear',
+          style({ transform: 'translateX(0%)', opacity: 1, width: '*' })),
       ])], { optional: true }),
   ])
 ]);
