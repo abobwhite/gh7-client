@@ -2,7 +2,7 @@ import {PhoneNumber} from './PhoneNumber';
 import {Transform, Type} from 'class-transformer';
 import {Locale} from './Locale';
 import {ASSISTANCE_CAPABILITY} from './ASSISTANCE_CAPABILITY';
-import {localeArrayTransformer, localeTransformer} from './transforms/localeTransformer';
+import {localeArrayTransformer, localeCodeArrayTransformer, localeCodeTransformer, localeTransformer} from './transforms/localeTransformer';
 
 export class User {
   id: string;
@@ -16,14 +16,17 @@ export class User {
 
   @Type(() => Locale)
   @Transform(localeArrayTransformer)
+  @Transform(localeCodeArrayTransformer, {toPlainOnly: true})
   knownLanguages: Locale[];
 
   @Type(() => Locale)
   @Transform(localeTransformer)
+  @Transform(localeCodeTransformer, {toPlainOnly: true})
   preferredLanguage: string;
 
   @Type(() => Locale)
   @Transform(localeTransformer)
+  @Transform(localeCodeTransformer, {toPlainOnly: true})
   assistanceLanguage: string;
 
   assistanceCapabilities: ASSISTANCE_CAPABILITY[];

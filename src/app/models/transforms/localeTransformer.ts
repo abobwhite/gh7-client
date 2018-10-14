@@ -26,4 +26,10 @@ export function localeTransformer(localCode: string): Locale {
   return undefined;
 }
 
-// For serialization: return language + (!!country ? `_${country}` : '');
+export function localeCodeArrayTransformer(locales: Locale[]): string[] {
+  return locales.map((locale) => localeCodeTransformer(locale));
+}
+
+export function localeCodeTransformer(locale: Locale): string {
+  return locale.language + (!!locale.country ? `_${locale.country}` : '');
+}
