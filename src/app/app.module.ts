@@ -19,6 +19,7 @@ import {AuthInterceptor} from './services/auth.interceptor';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {UserAssistanceService} from './services/userAssistance.service';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material';
+import {AuthGuard} from './auth.guard';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material';
     AuthService,
     UserService,
     UserAssistanceService,
+    AuthGuard,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000}}
   ],
