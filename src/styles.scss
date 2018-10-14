@@ -28,7 +28,7 @@ h3 {
   font-size: 1.4em;
 }
 
-.btn-full-width {
+.btn-full-width, .flex-layout-full-width {
   width: 100%;
 }
 
@@ -49,4 +49,8 @@ router-outlet + * {
   background-color: #e0e0e0;
   padding: 1em;
   height: 100%;
+}
+
+.align-right {
+  text-align: right;
 }

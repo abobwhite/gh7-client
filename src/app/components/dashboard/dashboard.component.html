@@ -2,17 +2,26 @@
   <ng-template #loading class="loading-spinner-holder">
     <mat-spinner color="accent" class="loading-spinner"></mat-spinner>
   </ng-template>
-  <div fxLayout="row" fxLayoutGap="50px" *ngIf="(user$ | async) as user; else loading">
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" *ngIf="(user$ | async) as user; else loading">
     <div fxFlex="1 1 50%" *ngIf="user.needsAssistance" class="mat-elevation-z2">
       <mat-toolbar class="header mat-elevation-z2">
-        <h1><fa-icon [icon]="faLifeRing"></fa-icon> Seek Assistance</h1>
+        <div fxLayout="row" class="flex-layout-full-width">
+          <div fxFlex="grow">
+            <h1><fa-icon [icon]="faLifeRing"></fa-icon> Seek Assistance</h1>
+          </div>
+          <div fxFlex="none" class="align-right">
+            <button mat-mini-fab matTooltip="Call someone for assistance" matTooltipPosition="above" (click)="getGeneralAssistance()">
+              <fa-icon [icon]="faMobileAlt" size="lg"></fa-icon>
+            </button>
+          </div>
+        </div>
       </mat-toolbar>
       <mat-card class="mat-elevation-z2">
         For emergency assistance, select an option below<br/><br/>
-        <button mat-raised-button color="warn" style="font-size: 2.0em" class="btn-full-width btn-big" (click)="getMedicalAssistance(user.id)">
+        <button mat-raised-button color="warn" style="font-size: 1.8em" class="btn-full-width btn-big" (click)="getMedicalAssistance()">
           <fa-icon [icon]="faAmbulance"></fa-icon> Medical
         </button><br/><br/>
-        <button mat-raised-button color="warn" style="font-size: 2.0em" class="btn-full-width btn-big" (click)="getLawEnforcementAssistance(user.id)">
+        <button mat-raised-button color="warn" style="font-size: 1.8em" class="btn-full-width btn-big" (click)="getLawEnforcementAssistance()">
           <fa-icon [icon]="faUserShield"></fa-icon> Law Enforcement
         </button>
       </mat-card>
@@ -23,15 +32,8 @@
         <h1><fa-icon [icon]="faHandsHelping"></fa-icon> Assist Others</h1>
       </mat-toolbar>
       <mat-card class="mat-elevation-z2">
-        <h2>Seek Assistance</h2>
-        Seek assistance or provide assistance to others<br/><br/>
-        For emergency assistance, select an option below<br/><br/>
-        <button mat-raised-button color="warn" style="font-size: 2.0em" (click)="getMedicalAssistance(user.id)">
-          <fa-icon [icon]="faAmbulance"></fa-icon> Medical
-        </button>
-        <button mat-raised-button color="warn" style="font-size: 2.0em" (click)="getLawEnforcementAssistance(user.id)">
-          <fa-icon [icon]="faUserShield"></fa-icon> Law Enforcement
-        </button>
+        Make yourself available for those who are in need of assistance<br/><br/>
+        TODO!!!
       </mat-card>
     </div>
   </div>

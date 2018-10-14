@@ -35,4 +35,8 @@ export class User {
   get canAssist(): boolean {
     return !!this.assistanceCapabilities && !!this.assistanceCapabilities.length;
   }
+
+  get fullName(): string {
+    return `${this.givenName} ${this.familyName}`;
+  }
 }

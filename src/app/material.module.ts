@@ -12,7 +12,7 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSelectModule, MatMenuModule, MatExpansionModule, MatProgressSpinnerModule, MatSnackBarModule,
+  MatSelectModule, MatMenuModule, MatExpansionModule, MatProgressSpinnerModule, MatSnackBarModule, MatTooltipModule,
 } from '@angular/material';
 
 @NgModule({
@@ -32,7 +32,8 @@ import {
     MatSelectModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   exports: [
     MatSidenavModule,
@@ -50,7 +51,8 @@ import {
     MatSelectModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule
   ]
 })
 export class MaterialModule {}

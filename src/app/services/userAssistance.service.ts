@@ -8,7 +8,11 @@ export class UserAssistanceService {
   constructor(private http: HttpClient) {
   }
 
-  createRequest(request: UserAssistanceRequest): Observable<UserAssistanceRequest> {
-    return this.http.post<UserAssistanceRequest>('/api/assistance/request', request);
+  createEmergencyRequest(request: UserAssistanceRequest): Observable<void> {
+    return this.http.post<void>('/api/assistance/request', request);
+  }
+
+  createPhoneRequest(): Observable<void> {
+    return this.http.post<void>('/api/assistance/phonehelp', {});
   }
 }
