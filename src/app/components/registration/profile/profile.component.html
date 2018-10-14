@@ -6,8 +6,8 @@
         (ngSubmit)="register()"
         novalidate>
         <div class="form-field">
-          <h2>Thank you for signing up!</h2>
-          <h3>Please complete your profile below</h3>
+          <h2>{{ 'profile.thanksHeader' | translate }}</h2>
+          <h3>{{ 'profile.pleaseComplete' | translate }}</h3>
         </div>
         <div class="form-field">
           <mat-form-field>
@@ -81,7 +81,7 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Looking for assistance in translation or cultural aid?
+                {{ 'profile.needAssistance' | translate }}
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div>
@@ -90,7 +90,7 @@
                             (change)="changeAid($event);"
               >
                 <div class="checkbox-text">
-                  Check here if you need assistance in translation or cultural aid.
+                  {{ 'profile.needAssistanceCheck' | translate }}
                 </div>
               </mat-checkbox>
               <mat-form-field>
@@ -115,7 +115,7 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Interested in helping others?
+                {{ 'profile.offerAssistance' | translate }}
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div>

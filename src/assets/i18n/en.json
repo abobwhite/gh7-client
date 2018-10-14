@@ -2,6 +2,12 @@
   "welcome": "Welcome to Beacon!",
 
   "profile": "Profile",
+  "profile.thanksHeader": "Thank you for signing up!",
+  "profile.pleaseComplete": "Please complete your profile below",
+  "profile.needAssistance": "Looking for assistance in translation or cultural aid?",
+  "profile.needAssistanceCheck": "Check here if you need assistance in translation or cultural aid.",
+  "profile.offerAssistance": "Interested in helping others?",
+  "profile.offerAssistanceCheck": "Are you interested in providing translation or cultural aid to others?",
 
   "dashboard": "Dashboard",
   "dashboard.seekAssistance": "Seek Assistance",
