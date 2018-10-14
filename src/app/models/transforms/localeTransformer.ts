@@ -31,5 +31,5 @@ export function localeCodeArrayTransformer(locales: Locale[]): string[] {
 }
 
 export function localeCodeTransformer(locale: Locale): string {
-  return locale.language + (!!locale.country ? `_${locale.country}` : '');
+  return locale ? (locale.language + (!!locale.country ? `_${locale.country}` : '')) : undefined;
 }
