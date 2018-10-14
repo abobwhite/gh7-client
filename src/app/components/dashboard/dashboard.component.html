@@ -7,37 +7,37 @@
       <mat-toolbar class="header mat-elevation-z2">
         <div fxLayout="row" class="flex-layout-full-width">
           <div fxFlex="grow">
-            <h1><fa-icon [icon]="faLifeRing"></fa-icon> Seek Assistance</h1>
+            <h1><fa-icon [icon]="faLifeRing"></fa-icon> {{ 'dashboard.seekAssistance' | translate }}</h1>
           </div>
           <div fxFlex="none" class="align-right">
-            <button mat-mini-fab matTooltip="Call someone for assistance" matTooltipPosition="above" (click)="getGeneralAssistance()">
+            <button mat-mini-fab [matTooltip]="'dashboard.seekAssistance.call' | translate" matTooltipPosition="above" (click)="getGeneralAssistance()">
               <fa-icon [icon]="faMobileAlt" size="lg"></fa-icon>
             </button>
           </div>
         </div>
       </mat-toolbar>
       <mat-card class="mat-elevation-z2">
-        For emergency assistance, select an option below<br/><br/>
+        {{ 'dashboard.seekAssistance.msg' | translate }}<br/><br/>
         <button mat-raised-button color="warn" style="font-size: 1.8em" class="btn-full-width btn-big" (click)="getMedicalAssistance()">
-          <fa-icon [icon]="faAmbulance"></fa-icon> MEDICAL
+          <fa-icon [icon]="faAmbulance"></fa-icon> {{ 'dashboard.seekAssistance.medical' | translate }}
         </button><br/><br/>
         <button mat-raised-button color="warn" style="font-size: 1.8em" class="btn-full-width btn-big" (click)="getLawEnforcementAssistance()">
-          <fa-icon [icon]="faUserShield"></fa-icon> LAW ENFORCEMENT
+          <fa-icon [icon]="faUserShield"></fa-icon> {{ 'dashboard.seekAssistance.lawEnforcement' | translate }}
         </button>
       </mat-card>
     </div>
 
     <div fxFlex="1 1 50%" *ngIf="user.canAssist"  class="mat-elevation-z2">
       <mat-toolbar class="header mat-elevation-z2">
-        <h1><fa-icon [icon]="faHandsHelping"></fa-icon> Assist Others</h1>
+        <h1><fa-icon [icon]="faHandsHelping"></fa-icon> {{ 'dashboard.assistOthers' | translate }}</h1>
       </mat-toolbar>
       <mat-card class="mat-elevation-z2">
-        Make yourself available for those who are in need of assistance<br/><br/>
+        {{ 'dashboard.assistOthers.msg' | translate }}<br/><br/>
         <button mat-raised-button *ngIf="user.onCall" color="warn" style="font-size: 1.8em" class="btn-full-width btn-big" (click)="toggleVolunteerOnCall(user.id, !!user.onCall)">
-          <fa-icon [icon]="faUserShield"></fa-icon> SET UNAVAILABLE
+          <fa-icon [icon]="faUserShield"></fa-icon> {{ 'dashboard.assistOthers.setUnavailable' | translate }}
         </button>
         <button mat-raised-button *ngIf="!user.onCall" color="primary" style="font-size: 1.8em" class="btn-full-width btn-big" (click)="toggleVolunteerOnCall(user.id, !!user.onCall)">
-          <fa-icon [icon]="faUserShield"></fa-icon> GO AVAILABLE
+          <fa-icon [icon]="faUserShield"></fa-icon> {{ 'dashboard.assistOthers.goAvailable' | translate }}
         </button>
       </mat-card>
     </div>

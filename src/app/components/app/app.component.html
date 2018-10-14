@@ -2,13 +2,13 @@
   <mat-sidenav #sidenav role="navigation">
     <mat-nav-list class="mobileNav">
       <a mat-list-item *ngIf="auth.isAuthenticated()" routerLink="/dashboard">
-        <fa-icon [icon]="faHandsHelping"></fa-icon>&nbsp;&nbsp;Dashboard
+        <fa-icon [icon]="faHandsHelping"></fa-icon>&nbsp;&nbsp;{{ 'dashboard' | translate }}
       </a>
       <a mat-list-item *ngIf="auth.isAuthenticated()" routerLink="/profile">
-        <fa-icon [icon]="faUserCog"></fa-icon>&nbsp;&nbsp;Profile
+        <fa-icon [icon]="faUserCog"></fa-icon>&nbsp;&nbsp;{{ 'profile' | translate }}
       </a>
       <a mat-list-item *ngIf="auth.isAuthenticated()" (click)="auth.logout()" type="button">
-        <fa-icon [icon]="faSignOutAlt"></fa-icon>&nbsp;&nbsp;Log Out
+        <fa-icon [icon]="faSignOutAlt"></fa-icon>&nbsp;&nbsp;{{ 'logout' | translate }}
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -28,7 +28,7 @@
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li *ngIf="auth.isAuthenticated()">
             <a routerLink="/dashboard">
-              <fa-icon [icon]="faHandsHelping"></fa-icon>&nbsp;&nbsp;Dashboard
+              <fa-icon [icon]="faHandsHelping"></fa-icon>&nbsp;&nbsp;{{ 'dashboard' | translate }}
             </a>
           </li>
           <li *ngIf="auth.isAuthenticated()">
@@ -40,10 +40,10 @@
                 {{ (auth.getAuthenticatedUser() | async)?.fullName }}
               </span>
               <a mat-menu-item routerLink="/profile" type="button">
-                <fa-icon [icon]="faUserCog"></fa-icon>&nbsp;&nbsp;Profile
+                <fa-icon [icon]="faUserCog"></fa-icon>&nbsp;&nbsp;{{ 'profile' | translate }}
               </a>
               <button mat-menu-item (click)="auth.logout()">
-                <fa-icon [icon]="faSignOutAlt"></fa-icon>&nbsp;&nbsp;Log Out
+                <fa-icon [icon]="faSignOutAlt"></fa-icon>&nbsp;&nbsp;{{ 'logout' | translate }}
               </button>
             </mat-menu>
           </li>

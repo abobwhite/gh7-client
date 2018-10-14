@@ -8,4 +8,8 @@ export class Locale {
     this.country = country;
     this.displayName = displayName;
   }
+
+  get localeCode(): string {
+    return this.language + (!!this.country ? `_${this.country}` : '');
+  }
 }

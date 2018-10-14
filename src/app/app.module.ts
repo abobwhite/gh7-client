@@ -12,16 +12,21 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
 import {HomeComponent} from './components/home/home.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {ProfileComponent} from './components/registration/profile/profile.component';
 import {AuthInterceptor} from './services/auth.interceptor';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {UserAssistanceService} from './services/userAssistance.service';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {AuthGuard} from './auth.guard';
 import {NoAuthGuard} from './no.auth.guard';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -40,7 +45,14 @@ import {NoAuthGuard} from './no.auth.guard';
     MaterialModule,
     ReactiveFormsModule,
     RouterModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     AuthService,

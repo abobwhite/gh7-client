@@ -1,0 +1,18 @@
+{
+  "welcome": "¡Bienvenido a Beacon!",
+
+  "profile": "Perfil",
+
+  "dashboard": "Tablero",
+  "dashboard.seekAssistance": "Buscar ayuda",
+  "dashboard.seekAssistance.msg": "Para asistencia de emergencia, seleccione una opción a continuación",
+  "dashboard.seekAssistance.medical": "MÉDICO",
+  "dashboard.seekAssistance.lawEnforcement": "CUMPLIMIENTO DE LA LEY",
+  "dashboard.seekAssistance.call": "Llame a alguien para asistencia",
+  "dashboard.assistOthers": "Ayudar a otros",
+  "dashboard.assistOthers.msg": "Esté disponible para aquellos que necesitan asistencia",
+  "dashboard.assistOthers.goAvailable": "ESTAR DISPONIBLE",
+  "dashboard.assistOthers.setUnavailable": "SEA DISPONIBLE",
+
+  "logout": "Cerrar sesión"
+}

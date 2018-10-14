@@ -25,6 +25,8 @@
     "@fortawesome/angular-fontawesome": "0.2.1",
     "@fortawesome/fontawesome-svg-core": "1.2.6",
     "@fortawesome/free-solid-svg-icons": "5.4.1",
+    "@ngx-translate/core": "10.0.2",
+    "@ngx-translate/http-loader": "3.0.1",
     "auth0-js": "9.8.0",
     "class-transformer": "0.1.9",
     "core-js": "2.5.4",
