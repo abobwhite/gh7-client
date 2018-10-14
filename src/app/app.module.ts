@@ -16,6 +16,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {ProfileComponent} from './components/registration/profile/profile.component';
 import {AuthInterceptor} from './services/auth.interceptor';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {AuthInterceptor} from './services/auth.interceptor';
     HttpClientModule,
     MaterialModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    FontAwesomeModule
   ],
   providers: [
     AuthService,

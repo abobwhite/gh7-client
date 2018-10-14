@@ -1,26 +1,19 @@
 <mat-sidenav-container>
-  <mat-sidenav  #sidenav role="navigation">
+  <mat-sidenav #sidenav role="navigation">
     <mat-nav-list>
-      <a mat-list-item
-         *ngIf="!auth.isAuthenticated()"
-         (click)="auth.login()">
+      <a mat-list-item *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">Login</span>
       </a>
-      <a mat-list-item
-         *ngIf="auth.isAuthenticated()"
-         routerLink="/">
+      <a mat-list-item *ngIf="auth.isAuthenticated()" routerLink="/">
         <mat-icon class="icon">home</mat-icon>
         <span class="label">Home</span>
       </a>
-      <a mat-list-item
-         routerLink="/dashboard">
+      <a mat-list-item routerLink="/dashboard">
         <mat-icon class="icon">dashboard</mat-icon>
         <span class="label">Dashboard</span>
       </a>
-      <a  mat-list-item
-          *ngIf="auth.isAuthenticated()"
-          (click)="auth.logout()" type="button">
+      <a mat-list-item *ngIf="auth.isAuthenticated()" (click)="auth.logout()" type="button">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">LogOut</span>
       </a>
@@ -35,42 +28,34 @@
       </div>
       <div>
         <a routerLink="/">
-          Beacon
+          <fa-icon [icon]="faBroadcastTower"></fa-icon>&nbsp;&nbsp;Beacon
         </a>
       </div>
       <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
-            <a
-              *ngIf="!auth.isAuthenticated()"
-              (click)="auth.login()">
+            <a *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
               <mat-icon class="icon">input</mat-icon>
-              <span  class="label">Login</span>
+              <span class="label">Login</span>
             </a>
           </li>
           <li>
-            <a
-              *ngIf="auth.isAuthenticated()"
-              routerLink="/">
-              <mat-icon class="icon">home</mat-icon>
-              <span class="label">Home</span>
+            <a routerLink="/dashboard">
+              <fa-icon [icon]="faHandsHelping"></fa-icon>&nbsp;&nbsp;Dashboard
             </a>
           </li>
-          <li>
-            <a
-              routerLink="/dashboard">
-              <mat-icon class="icon">dashboard</mat-icon>
-              <span class="label">Dashboard</span>
-            </a>
-          </li>
-          <li>
-            <a
-              *ngIf="auth.isAuthenticated()"
-              (click)="auth.logout()" type="button"
-            >
-              <mat-icon class="icon">input</mat-icon>
-              <span class="label">LogOut</span>
-            </a>
+          <li *ngIf="auth.isAuthenticated()">
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" mat-icon-button>
+              <fa-icon [icon]="faUserCircle" size="2x"></fa-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+              <a mat-menu-item routerLink="/profile" type="button">
+                <fa-icon [icon]="faUserCog"></fa-icon>&nbsp;&nbsp;Profile
+              </a>
+              <button mat-menu-item (click)="auth.logout()">
+                <fa-icon [icon]="faSignOutAlt"></fa-icon>&nbsp;&nbsp;Log Out
+              </button>
+            </mat-menu>
           </li>
         </ul>
       </div>
