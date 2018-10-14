@@ -9,6 +9,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {User} from '../../../models/User';
 import {UserService} from '../../../services/user.service';
+import {Locale} from '../../../models/Locale';
 
 @Component({
   animations: [routerTransition],
@@ -28,12 +29,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   phoneNumber: string;
   preferredLanguage: string;
 
-  knownLanguages: any = [];
-  languageList: any = [];
+  knownLocales: any = [];
+  localeList: any = [];
 
   requiresTranslationOrCulturalAid: boolean;
   interestedInTranslationOrCulturalAidForOthers: boolean;
-
 
   auth0User: Auth0User;
 
@@ -67,11 +67,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   setupLanguageList() {
-    this.languageList = [
-      'English',
-      'Spanish',
-      'French'
-    ];
+    this.localeList = [];
+    this.localeList.push(new Locale('English', 'United States'));
+    this.localeList.push(new Locale('Spanish', 'Mexico'));
+    this.localeList.push(new Locale('Spanish', 'Spain'));
+    this.localeList.push(new Locale('French', 'France'));
+    this.localeList.push(new Locale('French', 'Canada'));
   }
 
   setupFormGroup() {
@@ -80,7 +81,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       familyNameControl: [this.auth0User.familyName, Validators.required, this.familyName],
       emailControl: [{value: this.auth0User.email, disabled: true}, Validators.required, this.email],
       phoneNumberControl: [this.phoneNumber, Validators.required],
-      knownLanguageControl: [this.knownLanguages],
+      knownLanguageControl: [this.knownLocales],
       preferredLanguageControl: [this.preferredLanguage],
       requiresTranslationOrCulturalAidControl: [this.requiresTranslationOrCulturalAid],
       interestedInTranslationOrCulturalAidForOthersControl: [this.interestedInTranslationOrCulturalAidForOthers]
@@ -88,7 +89,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   changeKnownLanguage(event) {
-    this.knownLanguages = event.value;
+    this.knownLocales = event.value;
   }
 
   createUser() {
