@@ -12,7 +12,7 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSelectModule, MatMenuModule,
+  MatSelectModule, MatMenuModule, MatExpansionModule,
 } from '@angular/material';
 
 @NgModule({
@@ -26,6 +26,7 @@ import {
     MatTableModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -41,6 +42,7 @@ import {
     MatTableModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,

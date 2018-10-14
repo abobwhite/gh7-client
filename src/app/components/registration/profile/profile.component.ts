@@ -63,6 +63,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   register() {
+    alert(this.interestedInTranslationOrCulturalAidForOthers);
     this.createUser();
   }
 
@@ -102,5 +103,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     user.preferredLanguage = this.allUsersFormGroup.get('preferredLanguageControl').value;
 
     this.userService.createUser(user);
+  }
+
+  showVal() {
+    alert(this.interestedInTranslationOrCulturalAidForOthers);
   }
 }
