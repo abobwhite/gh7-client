@@ -20,7 +20,7 @@ export class User {
   @Type(() => Locale)
   @Transform(localeArrayTransformer, {toClassOnly: true})
   @Transform(localeCodeArrayTransformer, {toPlainOnly: true})
-  knownLanguages: Locale[];
+  knownLanguages: Locale[] = [];
 
   @Type(() => Locale)
   @Transform(localeTransformer, {toClassOnly: true})
@@ -32,7 +32,7 @@ export class User {
   @Transform(localeCodeTransformer, {toPlainOnly: true})
   assistanceLanguage: Locale;
 
-  assistanceCapabilities: ASSISTANCE_CAPABILITY[];
+  assistanceCapabilities: ASSISTANCE_CAPABILITY[] = [];
 
   get needsAssistance(): boolean {
     return !!this.assistanceLanguage;

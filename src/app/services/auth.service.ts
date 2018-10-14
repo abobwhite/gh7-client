@@ -8,7 +8,7 @@ import {plainToClass} from 'class-transformer';
 import {UserService} from './user.service';
 import {User} from '../models/User';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Observable, ReplaySubject, throwError} from 'rxjs';
+import {Observable, of, ReplaySubject} from 'rxjs';
 import {catchError, flatMap, shareReplay} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 
@@ -88,15 +88,19 @@ export class AuthService {
       this.auth0.client.userInfo(this.accessToken, (err, authResult): void => {
         if (!err) {
           auth0UserSubject.next(plainToClass(Auth0User, authResult));
+          auth0UserSubject.complete();
         } else {
           auth0UserSubject.error(`Could not get user info for token ${this.accessToken}`);
+          auth0UserSubject.complete();
         }
       });
 
       this.auth0User$ = auth0UserSubject.asObservable();
     }
 
-    return this.auth0User$;
+    return this.auth0User$.pipe(
+      shareReplay(1)
+    );
   }
 
   public getAuthenticatedUser(): Observable<User> {
@@ -105,14 +109,13 @@ export class AuthService {
         .pipe(
           flatMap((auth0User) => this.userService.getUserById(auth0User.sub)),
           catchError((err) => {
-            this.authenticatedUser$ = undefined;
-            return throwError(err);
+            return of(null);
           }),
           shareReplay(1)
         );
     }
 
-    this.authenticatedUser$.subscribe((user) => this.translate.use(user.preferredLanguage.language));
+    this.authenticatedUser$.subscribe((user) => user && this.translate.use(user.preferredLanguage.language));
 
     return this.authenticatedUser$;
   }
@@ -123,8 +126,10 @@ export class AuthService {
         flatMap(this.getAuthenticatedUser.bind(this)),
       ).subscribe(
       (user: User) => {
-        if (!this.router.isActive('profile', false)) {
+        if (user && !this.router.isActive('profile', false)) {
           this.router.navigate(['dashboard']);
+        } else if (!user) {
+          this.router.navigate(['profile']);
         }
       },
       (error: HttpErrorResponse) => {

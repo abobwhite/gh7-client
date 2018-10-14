@@ -3,7 +3,7 @@
     <mat-card>
       <form
         [formGroup]="allUsersFormGroup"
-        (ngSubmit)="register()"
+        (ngSubmit)="saveUser()"
         novalidate>
         <div class="form-field">
           <h2>{{ 'profile.thanksHeader' | translate }}</h2>
@@ -129,7 +129,7 @@
               </mat-checkbox>
               <mat-form-field>
                 <mat-select
-                  [placeholder]="'profile.placeholder.assistanceCapabilities' | translate"
+                  [placeholder]="'profile.placeholders.assistanceCapabilities' | translate"
                   multiple
                   [disabled]="!interestedInTranslationOrCulturalAidForOthers"
                   formControlName="assistanceCapabilitiesControl"
