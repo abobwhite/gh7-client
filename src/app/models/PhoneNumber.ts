@@ -1,5 +1,5 @@
 export class PhoneNumber {
-  countryCode: string;
+  countryCode = '1';
   areaCode: string;
   exchange: string;
   lineNumber: string;
