@@ -31,4 +31,8 @@ export class User {
   get needsAssistance(): boolean {
     return !!this.assistanceLanguage;
   }
+
+  get canAssist(): boolean {
+    return !!this.assistanceCapabilities && !!this.assistanceCapabilities.length;
+  }
 }

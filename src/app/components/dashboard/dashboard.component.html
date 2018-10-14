@@ -7,7 +7,20 @@
       <mat-spinner color="accent" class="loading-spinner"></mat-spinner>
     </ng-template>
     <mat-card fxLayout="row" fxLayoutGap="50px" *ngIf="(user$ | async) as user; else loading" class="mat-elevation-z2">
-      {{user.givenName}} TODO!
+      <div fxFlex="1 1" *ngIf="user.needsAssistance">
+        <h2>Seek Assistance</h2>
+        Seek assistance or provide assistance to others<br/><br/>
+        For emergency assistance, select an option below or call x.xxx.xxx.xxxx<br/><br/>
+        <button mat-raised-button color="warn" style="font-size: 2.0em" (click)="getMedicalAssistance(user.id)">
+          <fa-icon [icon]="faAmbulance"></fa-icon> Medical
+        </button>
+        <button mat-raised-button color="warn" style="font-size: 2.0em" (click)="getLawEnforcementAssistance(user.id)">
+          <fa-icon [icon]="faUserShield"></fa-icon> Law Enforcement
+        </button>
+      </div>
+      <div fxFlex="1 1" *ngIf="user.canAssist">
+        <h2>Assist Others</h2>
+      </div>
     </mat-card>
   </div>
 </div>

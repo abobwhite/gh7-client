@@ -12,7 +12,7 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSelectModule, MatMenuModule, MatProgressSpinnerModule,
+  MatSelectModule, MatMenuModule, MatProgressSpinnerModule, MatSnackBarModule,
 } from '@angular/material';
 
 @NgModule({
@@ -30,7 +30,8 @@ import {
     MatInputModule,
     MatSelectModule,
     MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   exports: [
     MatSidenavModule,
@@ -46,7 +47,8 @@ import {
     MatInputModule,
     MatSelectModule,
     MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialModule {}
