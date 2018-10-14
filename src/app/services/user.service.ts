@@ -28,7 +28,14 @@ export class UserService {
   createUser(user: User): Observable<User> {
     return this.httpClient.post<ResponseEntity<User>>('/api/users', classToPlain(user))
       .pipe(
-        map((res) => plainToClass(User, res.body))
+        map((res) => plainToClass(User, res))
+      );
+  }
+
+  updateUser(userId: string, changedProps: any): Observable<User> {
+    return this.httpClient.patch<ResponseEntity<User>>(`/api/users/${userId}`, changedProps)
+      .pipe(
+        map((res) => plainToClass(User, res))
       );
   }
 }
