@@ -21,10 +21,11 @@
 
   "dashboard": "Dashboard",
   "dashboard.seekAssistance": "Seek Assistance",
+  "dashboard.seekAssistance.wait": "Please wait while we try to connect you",
   "dashboard.seekAssistance.msg": "For emergency assistance, select an option below",
   "dashboard.seekAssistance.medical": "MEDICAL",
   "dashboard.seekAssistance.lawEnforcement": "LAW ENFORCEMENT",
-  "dashboard.seekAssistance.call": "Call someone for assistance",
+  "dashboard.seekAssistance.call": "OTHER",
   "dashboard.assistOthers": "Assist Others",
   "dashboard.assistOthers.msg": "Make yourself available for those who are in need of assistance",
   "dashboard.assistOthers.goAvailable": "GO AVAILABLE",

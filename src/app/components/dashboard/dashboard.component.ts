@@ -9,6 +9,7 @@ import {ASSISTANCE_CAPABILITY} from '../../models/ASSISTANCE_CAPABILITY';
 import {MatSnackBar} from '@angular/material';
 import {UserService} from '../../services/user.service';
 import {map} from 'rxjs/operators';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,7 @@ export class DashboardComponent implements OnInit {
   user$: Observable<User>;
 
   constructor(private auth: AuthService, private snackBar: MatSnackBar, private userAssistanceService: UserAssistanceService,
-              private userService: UserService) {
+              private userService: UserService, private translate: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -32,19 +33,31 @@ export class DashboardComponent implements OnInit {
   }
 
   getGeneralAssistance(): void {
-    this.userAssistanceService.createPhoneRequest().subscribe(() => this.snackBar.open('Hang tight'));
+    this.userAssistanceService.createPhoneRequest().subscribe(() => {
+      this.translate.get('dashboard.seekAssistance.wait').subscribe((res: string) => {
+        this.snackBar.open(res);
+      });
+    });
   }
 
   getMedicalAssistance(): void {
     const request = new UserAssistanceRequest();
     request.requestedCapability = ASSISTANCE_CAPABILITY.MEDICAL_TRANSLATION;
-    this.userAssistanceService.createEmergencyRequest(request).subscribe(() => this.snackBar.open('Hang tight'));
+    this.userAssistanceService.createEmergencyRequest(request).subscribe(() => {
+      this.translate.get('dashboard.seekAssistance.wait').subscribe((res: string) => {
+        this.snackBar.open(res);
+      });
+    });
   }
 
   getLawEnforcementAssistance(): void {
     const request = new UserAssistanceRequest();
     request.requestedCapability = ASSISTANCE_CAPABILITY.LAW_ENFORCEMENT_TRANSLATION;
-    this.userAssistanceService.createEmergencyRequest(request).subscribe(() => this.snackBar.open('Hang tight'));
+    this.userAssistanceService.createEmergencyRequest(request).subscribe(() => {
+      this.translate.get('dashboard.seekAssistance.wait').subscribe((res: string) => {
+        this.snackBar.open(res);
+      });
+    });
   }
 
   toggleVolunteerOnCall(userId: string, currentOnCall: boolean): void {
