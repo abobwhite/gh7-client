@@ -7,6 +7,8 @@ import {AuthService} from '../../../services/auth.service';
 import {Auth0User} from '../../../models/Auth0User';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {User} from '../../../models/User';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   animations: [routerTransition],
@@ -15,6 +17,8 @@ import {takeUntil} from 'rxjs/operators';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+
+  private unsubscriber: Subject<any> = new Subject();
 
   allUsersFormGroup: FormGroup;
 
@@ -25,16 +29,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
   preferredLanguage: string;
 
   knownLanguages: any = [];
+  languageList: any = [];
+
   requiresTranslationOrCulturalAid: boolean;
   interestedInTranslationOrCulturalAidForOthers: boolean;
 
-  languageList: any = [];
 
   auth0User: Auth0User;
-  private unsubscriber: Subject<any> = new Subject();
 
-  constructor(private formBuilder: FormBuilder,
-              private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private userService: UserService
+  ) {
   }
 
   ngOnInit() {
@@ -56,8 +63,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   register() {
-    this.populateUser();
-
+    this.createUser();
   }
 
   setupLanguageList() {
@@ -85,9 +91,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.knownLanguages = event.value;
   }
 
-  populateUser() {
-    this.auth0User.givenName = this.allUsersFormGroup.get('givenNameControl').value;
-    this.auth0User.familyName = this.allUsersFormGroup.get('familyNameControl').value;
-    this.auth0User.email = this.allUsersFormGroup.get('emailControl').value;
+  createUser() {
+    const user = new User();
+    user.givenName = this.allUsersFormGroup.get('givenNameControl').value;
+    user.familyName = this.allUsersFormGroup.get('familyNameControl').value;
+    user.email = this.allUsersFormGroup.get('emailControl').value;
+    user.phoneNumber = this.allUsersFormGroup.get('phoneNumberControl').value;
+    user.knownLanguages = this.allUsersFormGroup.get('knownLanguageControl').value;
+    user.preferredLanguage = this.allUsersFormGroup.get('preferredLanguageControl').value;
+
+    this.userService.createUser(user);
   }
 }
