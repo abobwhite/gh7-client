@@ -116,7 +116,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   changeAssistanceCapabilities(event) {
-    this.assistanceLanguage = event.value;
+    this.assistanceCapabilities = event.value;
   }
 
   createUser() {
@@ -128,6 +128,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
     user.knownLanguages = this.allUsersFormGroup.get('knownLanguageControl').value;
     user.preferredLanguage = this.allUsersFormGroup.get('preferredLanguageControl').value;
     user.assistanceLanguage = this.allUsersFormGroup.get('assistanceLanguageControl').value;
+
+    const capabilities = [];
+    for(const cap of this.allUsersFormGroup.get('assistanceCapabilitiesControl').value) {
+      capabilities.push(this.reverseCapabilityLookup(cap));
+    }
+    user.assistanceCapabilities = capabilities;
 
     this.userService.createUser(user);
   }

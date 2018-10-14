@@ -130,6 +130,7 @@
               <mat-form-field>
                 <mat-select
                   placeholder="Assistance Capabilities"
+                  multiple
                   [disabled]="!interestedInTranslationOrCulturalAidForOthers"
                   formControlName="assistanceCapabilitiesControl"
                   (selectionChange)="changeAssistanceCapabilities($event)">
