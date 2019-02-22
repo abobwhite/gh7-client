@@ -31,11 +31,10 @@ pipeline {
             configFileProvider([configFile(fileId: 'compose-env', variable: 'ENV_FILE')]) {
               sh "mv $ENV_FILE $COMPOSE_LOCATION/.env"
 
-              sh "cd $COMPOSE_LOCATION"
               docker.withRegistry("", "dockerhub-credentials") {
-                sh "docker-compose down"
-                sh "docker-compose pull"
-                sh "docker-compose up -d"
+                sh "docker-compose -f $COMPOSE_LOCATION/docker-compose.yml down"
+                sh "docker-compose -f $COMPOSE_LOCATION/docker-compose.yml pull"
+                sh "docker-compose -f $COMPOSE_LOCATION/docker-compose.yml up -d"
               }
             }
           }
@@ -45,6 +44,6 @@ pipeline {
   }
   environment {
     DOCKER_IMAGE = "abobwhite/beacon-client"
-    COMPOSE_LOCATION = "/opt/beacon"
+    COMPOSE_LOCATION = "/tmp"
   }
 }
